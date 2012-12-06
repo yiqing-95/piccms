@@ -19,8 +19,7 @@ class Install_Controller extends Controller {
         parent::__construct();
         $this->lockFile = Wee::$config['data_path'] . 'install/install.lock';
         if (is_file($this->lockFile)){
-            show_msg('系统已经安装过, 如果确认要重新安装, 请删除 data/install/install.lock 文件',
-                    null,-1);
+            show_msg('系统已经安装过, 如果确认要重新安装, 请删除 data/install/install.lock 文件',null,-1);
         }
         if (!$this->_isWritable('/data/')){
             show_msg('data/ 目录不可写, 请将 data/ 目录权限设置为 0777',null,-1);
@@ -76,8 +75,7 @@ class Install_Controller extends Controller {
 
     public function setup4(){
         $con = $this->input->get('con');
-        $this->db = new Db_Mysql($con['host'],$con['port'],$con['user'],
-                $con['pass']);
+        $this->db = new Db_Mysql($con['host'],$con['port'],$con['user'],$con['pass']);
         try{
             $this->db->connect();
         }catch(Error $e){
