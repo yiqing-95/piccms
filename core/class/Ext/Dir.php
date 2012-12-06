@@ -24,7 +24,7 @@ class Ext_Dir extends DirectoryIterator {
      *            目录权限
      * @return Boolean
      */
-    public static function mkDirs($directory, $mode = 0777){
+    public static function mkDirs($directory, $mode = 0775){
         $rs = mkdir($directory,$mode,true);
         if ($rs){
             $rs = @chmod($directory,$mode);
