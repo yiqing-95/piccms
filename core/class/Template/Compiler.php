@@ -57,7 +57,7 @@ class Template_Compiler {
             '/\{eval\s*([^}]+)\}/is', // <!--{ eval ..}-->
             '/\{php\}/is', // <!--{ php }-->
             '/\{\/php\}/is' // <!--{ /php}-->
-    ;
+    );
 
     private $_replace = array(
             "<?php echo \$\\1;?>",
