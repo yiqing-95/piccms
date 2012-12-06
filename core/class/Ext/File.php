@@ -29,13 +29,16 @@ class Ext_File {
      * @param string $data
      *            文件内容
      * @param integer $flags
-     *            写入类型 FILE_APPEND: 附加, LOCK_EX: 独占
+     *            写入类型 FILE_BINARY Binary mode FILE_APPEND: 附加, LOCK_EX: 独占
      * @return boolean
      */
-    public static function write($fileName, $data, $flags = 0){
+    public static function write($fileName, $data, $flags = FILE_BINARY){
         $dirName = dirname($fileName);
         if (!is_dir($dirName)){
             Ext_Dir::mkDirs($dirName);
+        }
+        if(!is_writable($dirName)){
+           return FALSE; 
         }
         $rs = file_put_contents($fileName,$data,$flags);
         return $rs;
