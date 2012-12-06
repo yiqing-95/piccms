@@ -1,0 +1,25 @@
+{include header.html}
+
+<form action="?c=Data&a=runSql" method="post">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title" id="add_edit_link">
+			<td colspan="2">SQL运行器</td>
+		</tr>
+		<tr class="tr">
+			<td width="100" class="rt">提示：</td>
+			<td>危险!!!除非确定您的SQL语句安全, 否则不要轻易在此处运行!<br /></td>
+		</tr>
+		<tr class="tr">
+			<td class="rt">SQL语句：</td>
+			<td><textarea style="height: 150px; width: 500px" cols="80"
+					name="content"></textarea></td>
+		</tr>
+		<tr class="tr">
+			<td>&nbsp;</td>
+			<td><input class="bginput" type="submit" name="submit"
+				value="提交" /></td>
+		</tr>
+	</table>
+</form>
+{include footer.html}

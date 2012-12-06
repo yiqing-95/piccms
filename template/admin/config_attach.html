@@ -1,0 +1,208 @@
+{include 'header.html'}
+<table width="98%" border="0" cellpadding="4" cellspacing="1"
+	class="table">
+	<form action="?c=Config&type=attach" method="post" id="myform">
+		<tr class="table_title">
+			<td colspan="2">本地附件设置</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">本地附件文件夹</td>
+			<td><input type="text" name="con[upload_path]" size="35"
+				maxlength="50" value="{$upload_path}">
+				定期修改此选项防止盗链,相对于程序安装目录,不要加 '/'</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">附件路径保存风格</td>
+			<td><input type="text" name="con[upload_style]" size="35"
+				maxlength="50" value="{$upload_style}"> <a
+				href="http://www.piccms.com/thread-141-1-1.html" target="_blank"><img
+					src="images/admin/faq.gif" /></a> 标记Y年,m月,d日.相对于附件文件夹,不要加 '/'</td>
+		</tr>
+
+
+
+		<tr class="tr">
+			<td class="left">缩略图算法</td>
+			<td><select name="con[upload_thumb_type]" style="width: 80px">
+					<option value="0" {if 0==$upload_thumb_type}selected{/if}>等比例</option>
+					<option value="1" {if 1==$upload_thumb_type}selected{/if}>居中裁剪</option>
+					<option value="2" {if 2==$upload_thumb_type}selected{/if}>左上裁剪</option>
+			</select> 等比例会使每张小图高宽不齐,裁剪可能损失图片部分内容</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">缩略图大小(宽度/高度)</td>
+			<td><input type="text" name="con[upload_thumb_w]" size="5"
+				maxlength="4" value="{$upload_thumb_w}" class="ct"> X <input
+				type="text" name="con[upload_thumb_h]" size="5" maxlength="4"
+				value="{$upload_thumb_h}" class="ct">
+				小于该指定大小的图片将不生成缩略图,已经上传过的图片不会重新处理</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">处理图片质量</td>
+			<td><input type="text" name="con[upload_cut_pct]2" size="5"
+				maxlength="3" value="{$upload_cut_pct}" /> 1-100, 一般设为80即可</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">自动裁剪大图片</td>
+			<td><select name="con[upload_resize]">
+					<option value="1" {if 1==$upload_resize}selected{/if}>是</option>
+					<option value="0" {if 0==$upload_resize}selected{/if}>否</option>
+			</select> 当图片超过指定宽度和高度时自动裁剪图片</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">最大图片大小(宽度/高度)</td>
+			<td><input type="text" name="con[upload_max_w]" size="5"
+				maxlength="4" value="{$upload_max_w}" class="ct"> X <input
+				type="text" name="con[upload_max_h]" size="5" maxlength="4"
+				value="{$upload_max_h}" class="ct"> 大于该指定大小的图片自动按比例裁剪</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">是否开启水印功能</td>
+			<td><select name="con[upload_water]">
+					<option value="2" {if 2==$upload_water}selected{/if}>文字水印</option>
+					<option value="1" {if 1==$upload_water}selected{/if}>图片水印</option>
+					<option value="0" {if 0==$upload_water}selected{/if}>否</option>
+			</select> <a href="http://www.piccms.com/thread-248-1-1.html" target="_blank"><img
+					src="images/admin/faq.gif" /></a> 是否需要在保存图片附件时加上水印, 文字水印不破坏原图, 图片水印更美观</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">水印文字</td>
+			<td><input type="text" name="con[upload_water_text]" size="35"
+				maxlength="30" value="{$upload_water_text}"> <span
+				class="red"> 必须上传字体文件至 core/misc/font/simsun.ttc</span>,
+				simsun.ttc可以在windows系统内搜索到</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">水印文字颜色</td>
+			<td><input name="con[upload_water_textcolor]" type="text"
+				value="{$upload_water_textcolor}" size="22" maxlength="6">
+				web颜色值,不要加#,默认为ffffff白色</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">水印背景颜色</td>
+			<td><input type="text" name="con[upload_water_bgcolor]"
+				size="22" maxlength="6" value="{$upload_water_bgcolor}">
+				web颜色值,不要加#,默认为000000黑色</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">水印图片</td>
+			<td><input type="text" name="con[upload_water_img]" size="22"
+				maxlength="30" value="{$upload_water_img}"> 相对于安装目录的水印图片路径</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">图片水印透明度</td>
+			<td><input type="text" name="con[upload_water_pct]" size="5"
+				maxlength="3" value="{$upload_water_pct}"> 1-100, 一般设为80即可,
+				不要加 '%'</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">图片水印位置</td>
+			<td><input type="text" name="con[upload_water_pos]" size="5"
+				maxlength="1" value="{$upload_water_pos}">
+				0=随机,从左&gt;右,上&gt;下,可以设置1-9,9个位置</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">批量上传数量</td>
+			<td><input type="text" name="con[upload_max_num]" size="5"
+				maxlength="2" value="{$upload_max_num}">
+				一次性批量上传多少张图片,不超过99张</td>
+		</tr>
+
+		<tr class="table_title">
+			<td colspan="2">图片显示模式</td>
+		</tr>
+
+		<tr class="ji">
+			<td class="left">是否使用调度器</td>
+			<td><select name="con[upload_dispatch]">
+					<option value=1 {if '1'==$upload_dispatch}selected{/if}>是</option>
+					<option value=0 {if '0'==$upload_dispatch}selected{/if}>否</option>
+
+			</select> <a href="http://www.piccms.com/thread-142-1-1.html" target="_blank"><img
+					src="images/admin/faq.gif" /></a>
+				使用调度器可以减少首次访问生成缩略图的时间,且可以支持防盗链等功能,但是会增加请求压力</td>
+		</tr>
+
+		<tr class="ji">
+			<td class="left">远程封面是否生成缩略图</td>
+			<td><select name="con[upload_http_thumb]">
+					<option value=1 {if '1'==$upload_http_thumb}selected{/if}>是</option>
+					<option value=0 {if '0'==$upload_http_thumb}selected{/if}>否</option>
+
+			</select> <a href="http://www.piccms.com/thread-142-1-1.html" target="_blank"><img
+					src="images/admin/faq.gif" /></a> 当封面图片是远程图片时也生成缩略图,该功能需要将图片下载到本地,<span
+				class="red">非常影响速度,建议将封面图片保存到本地!</span></td>
+		</tr>
+
+		<tr class="ji">
+			<td class="left">是否开启防盗链</td>
+			<td><select name="con[upload_safe_link]">
+					<option value=1 {if '1'==$upload_safe_link}selected{/if}>是</option>
+					<option value=0 {if '0'==$upload_safe_link}selected{/if}>否</option>
+
+			</select> 隐藏真实图片地址, 防止图片被他人盗用, 但是会消耗更多的系统资源</td>
+		</tr>
+
+
+		<tr class="ji">
+			<td class="left">允许外链的域名</td>
+			<td><textarea name="con[upload_safe_domain]"
+					style="width: 300px; height: 50px">{$upload_safe_domain}</textarea>
+				本站域名默认已添加,不要填 http://, 多个域名用 | 分隔</td>
+		</tr>
+
+
+
+		<tr class="table_title">
+			<td colspan="2">远程附件设置</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">是否开启FTP远程附件</td>
+			<td><select name="con[upload_ftp]">
+					<option value=1 {if 1==$upload_ftp}selected{/if}>是</option>
+					<option value=0 {if 0==$upload_ftp}selected{/if}>否</option>
+
+			</select> 开启将影响上传速度,但是可以将附件转移到FTP服务器(上传图片或采集时自动保存到远程服务器)</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">FTP 服务器</td>
+			<td><input type="text" name="con[upload_ftp_host]" size="35"
+				maxlength="50" value="{$upload_ftp_host}">
+				服务器地址,不需要加"http://",一般为IP</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">FTP 用户名</td>
+			<td><input type="text" name="con[upload_ftp_user]" size="35"
+				maxlength="50" value="{$upload_ftp_user}"> FTP服务器登录用的用户名</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">FTP 密码</td>
+			<td><input type="text" name="con[upload_ftp_pass]" size="35"
+				maxlength="50" value="{$upload_ftp_pass}"> FTP服务器登录用的密码</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">FTP 端口</td>
+			<td><input type="text" name="con[upload_ftp_port]" size="35"
+				maxlength="50" value="{$upload_ftp_port}"> 服务器端口, 一般为 21</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">远程附件保存文件夹</td>
+			<td><input type="text" name="con[upload_ftp_dir]" size="35"
+				maxlength="50" value="{$upload_ftp_dir}"> 必须以 /
+				结尾,请确保已经建立,相对于FTP服务器根目录, 如/wwwroot/upload/</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">远程附件访问地址</td>
+			<td><input type="text" name="con[upload_ftp_url]" size="35"
+				maxlength="50" value="{$upload_ftp_url}"> 必须以 / 结尾(如
+				http://img.baidu.com/upload/),留空则不使用该功能</td>
+		</tr>
+		<tr class="tr">
+			<td colspan="2"><input type="hidden" name="setting_sub"
+				value="true"> <input class="bginput" type="submit"
+				name="submit" value="提交"> <input class="bginput"
+				type="reset" name="Input" value="重置"></td>
+		</tr>
+	</form>
+</table>
+{include 'footer.html'}

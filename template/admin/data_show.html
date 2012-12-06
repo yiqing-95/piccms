@@ -1,0 +1,28 @@
+{include "header.html"}
+<form action="?c=Data&a=buckUp" method="post" id="myform" name="myform">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+
+		<tr class="table_title">
+			<td>数据库分卷备份 (请选择需要备份的数据库表)</td>
+		</tr>
+		<!--{foreach $tables as $val}-->
+		<tr class="tr">
+			<td><input type="checkbox" name="tables[]" value="{$val}"
+				class="noborder" checked>{$val}</td>
+		</tr>
+		<!--{/foreach}-->
+		<tr class="tr">
+			<td>每个分卷文件大小：<input type="text" name="size" value="2048"
+				size="5" class="ct"> Kb
+			</td>
+		</tr>
+		<tr class="tr">
+			<td><input onClick="$.selectAll('tables[]')" type="button"
+				class="bginput" id="checkall" value="全/反选"> <input
+				type="submit" name="submit" value="开始备份" class="bginput"></td>
+		</tr>
+
+	</table>
+</form>
+{include "footer.html"}

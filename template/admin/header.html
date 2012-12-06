@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{$sys_name}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<head>
+<link rel='stylesheet' type='text/css'
+	href='images/admin/admin_style.css'>
+	<link rel='stylesheet' type='text/css'
+		href="images/alert/jquery.alerts.css">
+		<script language="JavaScript" charset="utf-8" type="text/javascript"
+			src="images/js/jquery-1.4.4.min.js"></script>
+		<script language="JavaScript" charset="utf-8" type="text/javascript"
+			src="images/js/jquery.alerts.js"></script>
+		<script language="JavaScript" charset="utf-8" type="text/javascript"
+			src="images/js/system.js"></script>
+		<script type="text/javascript">
+$(document).ready(function(){
+	$("#loading").ajaxStart(function(){
+		$(this).show();
+		$(this).css('left', $(document).scrollLeft() + 10);
+		$(this).css('top', $(document).scrollTop() + 10);
+	});
+	$("#loading").ajaxComplete(function(event,request, settings){
+		$(this).hide();
+	});
+	// tr over
+	$('.list_tbody tr').hover(function(){
+		$(this).addClass('tr_over');
+	}, function() {
+		$(this).removeClass('tr_over');
+	});
+});
+</script>
+	</head>
+	<body>
+		<div id="loading"
+			style="display: none; position: absolute; background: #666; color: #FFF; padding: 5px; width: 200px; font-size: 11px;">加载中....</div>

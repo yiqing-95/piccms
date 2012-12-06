@@ -1,0 +1,182 @@
+{include "header.html"}
+<table width="98%" border="0" cellpadding="4" cellspacing="1"
+	class="table">
+	<form action="?c=Config&type=web" method="post" id="myform">
+		<tr class="table_title">
+			<td colspan="2">网站信息设置</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">网站名称</td>
+			<td><input type="text" name="con[web_name]" size="35"
+				maxlength="50" value="{$web_name}"> *</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">网站地址</td>
+			<td><input type="text" name="con[web_url]" size="35"
+				maxlength="50" value="{$web_url}"> * 系统检测到 <span
+				class="blue">{$web_host}{$web_dir}</span></td>
+		</tr>
+		<tr class="ji">
+			<td class="left">安装路径</td>
+			<td><input type="text" name="con[web_path]" size="35"
+				maxlength="50" value="{$web_path}"> * 结尾必须加斜杠 '/',
+				根目录请填写'/', 系统检测到 <span class="blue">{$web_dir}</span></td>
+		</tr>
+		<tr class="tr">
+			<td class="left">站长Email</td>
+			<td><input type="text" name="con[web_email]" size="35"
+				value="{$web_email}"></td>
+		</tr>
+		<tr class="tr">
+			<td class="left">站长QQ</td>
+			<td><input type="text" name="con[web_qq]" size="35"
+				value="{$web_qq}"></td>
+		</tr>
+		<tr class="ji">
+			<td class="left">ICP备案信息</td>
+			<td><input type="text" name="con[web_icp]" size="35"
+				value="{$web_icp}"></td>
+		</tr>
+		<tr class="tr">
+			<td class="left">热门关键词</td>
+			<td><input name="con[web_hotkey]" type="text"
+				value="{$web_hotkey}" style="width: 495px" maxlength="255">
+				关键词以 | 线分隔</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">SEO关键字描述</td>
+			<td><input name="con[web_keywords]" type="text"
+				value="{$web_keywords}" style="width: 495px" maxlength="255">
+			</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">SEO网页内容信息描述</td>
+			<td><input name="con[web_description]" type="text"
+				value="{$web_description}" style="width: 495px" maxlength="255">
+			</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">版权信息</td>
+			<td><textarea name="con[web_copyright]"
+					style="width: 500px; height: 50px">{$web_copyright}</textarea></td>
+		</tr>
+		<tr class="ji">
+			<td class="left">第三方统计代码</td>
+			<td><textarea name="con[web_tongji]"
+					style="width: 500px; height: 50px">{$web_tongji}</textarea> <br>
+			</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">模板主题方案</td>
+			<td><select name="con[template_skin]">
+					<!--{foreach $skinList as $val}-->
+					<option value="{$val}" {if $template_skin==$val}selected{/if}>{$val}</option>
+					<!--{/foreach}-->
+			</select></td>
+		</tr>
+		<tr class="table_title">
+			<td colspan="2">个性参数设置</td>
+		</tr>
+
+		<tr class="ji">
+			<td class="left">后台文章列表缩略图</td>
+			<td><select name="con[web_admin_cover]">
+					<option value="1" {if 1==$web_admin_cover}selected{/if}>开启</option>
+					<option value="0" {if 0==$web_admin_cover}selected{/if}>关闭</option>
+			</select> 后台文章管理界面是否显示文章的缩略图</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">后台分页显示条数</td>
+			<td><input type="text" name="con[web_admin_pagenum]" size="5"
+				maxlength="5" value="{$web_admin_pagenum}"
+				style="text-align: center"> 后台数据管理的每页默认显示数量</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">前台列表页显示条数</td>
+			<td><input name="con[web_list_pagenum]" type="text"
+				id="con[web_list_pagenum]" style="text-align: center"
+				value="{$web_list_pagenum}" size="5" maxlength="5">
+				前台网站翻页信息左右显示的数量</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">内容页图片显示张数</td>
+			<td><input name="con[web_article_pagenum]" type="text"
+				id="con[web_article_pagenum]" style="text-align: center"
+				value="{$web_article_pagenum}" size="5" maxlength="5">
+				前台内容页每页显示的图片数量</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">网站地图显示条数</td>
+			<td><input name="con[web_maps_num]" type="text"
+				id="con[web_maps_num]" style="text-align: center"
+				value="{$web_maps_num}" size="5" maxlength="5">
+				网站地图更新多少条最新文章</td>
+		</tr>
+		<tr class="ji">
+			<td class="left">RSS订阅显示条数</td>
+			<td><input name="con[web_rss_num]" type="text"
+				id="con[web_rss_num]" style="text-align: center"
+				value="{$web_rss_num}" size="5" maxlength="5">
+				RSS订阅更新多少条最新内容</td>
+		</tr>
+
+		<tr class="tr">
+			<td class="left">是否开启评论功能</td>
+			<td><select name="con[web_comment]">
+					<option value=1 {if 1==$web_comment}selected{/if}>开启</option>
+					<option value=0 {if 0==$web_comment}selected{/if}>关闭</option>
+			</select></td>
+		</tr>
+
+		<tr class="tr">
+			<td class="left">评论是否需要审核</td>
+			<td><select name="con[web_comment_status]">
+					<option value=1 {if 1==$web_comment_status}selected{/if}>开启</option>
+					<option value=0 {if 0==$web_comment_status}selected{/if}>关闭</option>
+			</select> 如果开启评论需要在后台审核后才会显示</td>
+		</tr>
+
+		<tr class="tr">
+			<td class="left">评论验码证</td>
+			<td><select name="con[web_comment_vcode]">
+					<option value=1 {if 1==$web_comment_vcode}selected{/if}>开启</option>
+					<option value=0 {if 0==$web_comment_vcode}selected{/if}>关闭</option>
+			</select> 发表评论需要验证码</td>
+		</tr>
+
+		<tr class="ji">
+			<td class="left">评论每页显示条数</td>
+			<td><input name="con[web_comment_pagenum]" type="text"
+				id="con[web_comment_pagenum]" style="text-align: center"
+				value="{$web_comment_pagenum}" size="5" maxlength="5">
+				前台内容页评论每页显示多少条</td>
+		</tr>
+
+		<tr class="tr">
+			<td class="left">人气随机最大值</td>
+			<td><input type="text" name="con[web_pick_hits]" size="5"
+				maxlength="5" value="{$web_pick_hits}" style="text-align: center">
+				采集时随机生成的最大人气值</td>
+		</tr>
+		<tr class="tr">
+			<td class="left">顶随机最大值</td>
+			<td><input type="text" name="con[web_pick_up]" size="5"
+				maxlength="5" value="{$web_pick_up}" style="text-align: center">
+				采集时随机生成的顶踩值</td>
+		</tr>
+
+		<tr class="tr">
+			<td class="left">广告保存目录</td>
+			<td><input type="text" name="con[web_adsensepath]" size="20"
+				maxlength="30" value="{$web_adsensepath}" style="text-align: center">
+				*广告JS文件保存路径(区分大小写,相对于安装目录)</td>
+		</tr>
+		<tr class="tr">
+			<td colspan="2"><input type="hidden" name="setting_sub"
+				value="true"> <input class="bginput" type="submit"
+				name="submit" value="提交"> <input class="bginput"
+				type="reset" name="Input" value="重置"></td>
+		</tr>
+	</form>
+</table>
+{include "footer.html"}

@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{$web_name} - Archiver - 归档</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="{$web_keywords}">
+	<meta name="description" content="{$web_description}">
+		<style type="text/css">
+h1 {
+	font-size: 16px;
+	color: #333
+}
+
+.archiver {
+	color: #399;
+	line-height: 150%
+}
+
+.archiver a {
+	color: #333;
+	text-decoration: none
+}
+
+.archiver a:hover {
+	color: #030;
+	text-decoration: underline
+}
+
+.archiver ul {
+	list-style: decimal
+}
+
+.archiver ul li {
+	
+}
+
+.archiver ul li span {
+	margin-left: 10px;
+	font-size: 12px;
+	color: #CCC
+}
+</style>
+</head>
+<body>
+	<h1>{$web_name} - Archiver - 归档</h1>
+	<div class="archiver">
+		<ul>
+			<!--{foreach $list as $val}-->
+			<li>[{$val.cate.name}]<a href="{$val.url}" target='_blank'>{$val.title}</a><span><em>{$val.pubdate}</em></span>
+			</li>
+			<!--{/foreach}-->
+		</ul>
+		{$pageHtml}
+	</div>
+</body>
+</html>

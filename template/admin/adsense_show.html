@@ -1,0 +1,63 @@
+{include header.html}
+
+<!--{if $list}-->
+<table width="98%" border="0" cellpadding="4" cellspacing="1"
+	class="table">
+	<tr class="table_title">
+		<td colspan="5">广告列表</td>
+	</tr>
+	<tr class="list_head ct">
+		<td width="60">编号</td>
+		<td>广告标识</td>
+		<td width="250">说明</td>
+		<td>广告代码</td>
+		<td width="150">操作</td>
+	</tr>
+	<tbody class="list_tbody">
+		<!--{foreach $list as $val}-->
+		<tr class="tr ct">
+			<td class="td">{$val.id}</td>
+			<td class="td">{$val.title}</td>
+			<td class="td">{$val.des}</td>
+			<td class="td"><textarea rows="3" disabled="disabled"
+					style="width: 98%">{@htmlspecialchars($val.content)}</textarea></td>
+			<td class="td"><a href="?c=Adsense&a=preview&id={$val.id}"
+				target="_blank">预览</a> | <a
+				href="?c=Adsense&id={$val.id}#add_edit_link">修改</a> | <a
+				href="?c=Adsense&id={$val.id}&a=del"
+				onclick="return confirm('确定删除吗?')">删除</a></td>
+		</tr>
+		<!--{/foreach}-->
+	</tbody>
+</table>
+<!--{/if}-->
+
+<form action="?c=Adsense&a=add" method="post">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title" id="add_edit_link">
+			<td colspan="2">{if $id}修改{else}添加{/if}广告</td>
+		</tr>
+		<tr class="tr">
+			<td width="100">广告标识:</td>
+			<td><input name="title" type="text" maxlength="50"
+				value="{$title}" style="width: 200px"> *</td>
+		</tr>
+		<tr class="tr">
+			<td width="100">说明:</td>
+			<td><input name="des" type="text" maxlength="50" value="{$des}"
+				style="width: 200px"></td>
+		</tr>
+		<tr class="tr">
+			<td>广告代码:</td>
+			<td><textarea style="height: 100px; width: 400px" cols="80"
+					name="content">{$content}</textarea> *</td>
+		</tr>
+		<tr class="tr">
+			<td>&nbsp;</td>
+			<td><input type="hidden" name="id" value="{$id}" /> <input
+				class="bginput" type="submit" name="submit" value="提交" /></td>
+		</tr>
+	</table>
+</form>
+{include footer.html}

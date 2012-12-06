@@ -1,0 +1,53 @@
+{include 'header.html'}
+
+<form action="?s=Admin/Html/Maps" method="post" id="myform"
+	name="myform">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title">
+			<td colspan="2">静态网页生成选项</td>
+		</tr>
+		<tr class="tr">
+			<td width="200" class="rt">一键生成</td>
+			<td><input type="submit" value="一键生成全站" class="bginput"
+				onclick="myform.action='?c=Html&a=makeIndex&oneKey=true';" /></td>
+		</tr>
+		<tr class="tr">
+			<td class="rt">生成网站首页</td>
+			<td><input type="submit" value="开始生成" class="bginput"
+				onclick="myform.action='?c=Html&a=makeIndex';" {if !$url_html_index}disabled{/if}/></td>
+		</tr>
+		<tr class="tr">
+			<td class="rt">生成分类列表</td>
+			<td>{$cateStr} <input type="submit" value="开始生成"
+				class="bginput" onclick="myform.action='?c=Html&a=makeCate';" {if !$url_html_cate}disabled{/if} /></td>
+		</tr>
+		<tr class="tr">
+			<td class="rt">生成文章内容</td>
+			<td width="836">{$conCateStr} <input type="submit" value="开始生成"
+				class="bginput" onclick="myform.action='?c=Html&a=makeArticle';" {if !$url_html_content}disabled{/if}/></td>
+		</tr>
+		<tr class="tr">
+			<td class="rt">文章按时间生成</td>
+			<td width="836"><select name="mday">
+					<option value="1">当天</option>
+					<option value="2">2天内</option>
+					<option value="3">3天内</option>
+					<option value="4">4天内</option>
+					<option value="5">5天内</option>
+					<option value="6">6天内</option>
+					<option value="7">一周内</option>
+					<option value="31">一月内</option>
+			</select> <input type="submit" value="开始生成" class="bginput"
+				onclick="myform.action='?c=Html&a=makeByAddtime';" {if !$url_html_content}disabled{/if}/>
+			</td>
+		</tr>
+		<tr class="tr">
+			<td class="rt">生成RSS网站地图</td>
+			<td><input type="submit" value="开始生成" class="bginput"
+				onclick="myform.action='?c=Html&a=makeMaps';" {if !$url_html_maps}disabled{/if}/>
+				sitempa.xml 和 rss.xml</td>
+		</tr>
+	</table>
+</form>
+{include 'footer.html'}

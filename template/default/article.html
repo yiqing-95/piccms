@@ -1,0 +1,196 @@
+<!--{include header.html}-->
+<script src="{$web_path}images/js/article.js"></script>
+<script type="text/javascript">
+/*定义ID*/
+var articleId = '{$article.id}';
+/*文档就绪*/
+$(document).ready(function() {
+	loadInfo(articleId);
+	<!--{if $web_comment}-->
+	loadComment(articleId);
+	<!--{/if}-->
+});
+</script>
+
+
+<div class="container detail_container">
+	<!-- 主要内容 开始 -->
+	<div class="main">
+		<!-- 详细内容 开始 -->
+		<div class="box_2 detail_cont_box">
+			<div class="crumb">
+				当前位置： <a href="{$web_url}">首页</a>
+				<!--{if $cate.parent}-->
+				&gt; <a href="{$cate.parent.url}">{$cate.parent.name}</a>
+				<!--{/if}-->
+				&gt; <a href="{$cate.url}">{$cate.name}</a> &gt; <a
+					href="{$article.url}">{$article.title}</a>
+			</div>
+			<div class="detail_cont">
+				<h1>{$article.title}</h1>
+				<div class="detail_info">
+					<!--{if $article.author}-->
+					来源：
+					<!--{if $article.comeurl}-->
+					<a href="{$article.comeurl}" target="_blank">{$article.author}</a>
+					<!--{else}-->
+					{$article.author}
+					<!--{/if}-->
+					<!--{/if}-->
+					<span>更新时间：{$article.pubdate}</span> <span>已经有<em
+						id="p_c_hits_{$article.id}">{$article.hits}</em>人关注
+					</span>
+				</div>
+			</div>
+
+			<!--{foreach $article.attach as $key => $val}-->
+			<div class="detail_pic">
+				<a href="{$article.next_url}"> <img src="{@image($val.file)}"
+					alt="{$artilce.title}" title="{$val.remark}" />
+				</a><br /> <span>{$val.remark}</span>
+				<div class="see_source">
+					<a href="{@image($val.file)}" target="_blank">查看原图</a>
+				</div>
+			</div>
+			<!--{/foreach}-->
+
+
+			<!--{if $article.content}-->
+			<div class="detail_txt">{$article.content}</div>
+			<!--{/if}-->
+
+			<!--{if $article.total_page > 1}-->
+			<div class="viewPage">
+				<div class="pager">{$pageHtml}</div>
+			</div>
+			<!--{/if}-->
+
+			<!--{if $article.tagArr}-->
+			<div class="detail_tag">
+				TAG：
+				<!--{foreach $article.tagArr as $item}-->
+				<a href="{@tagsurl($item)}">{$item}</a>
+				<!--{/foreach}-->
+			</div>
+			<!--{/if}-->
+
+			<div class="detail_about">
+				<!--{if $article.pre}-->
+				<a href="{$article.pre.url}" class="prev_detail"><b
+					class="icon icon_arrow_left"></b>上一篇：{$article.pre.title}</a>
+				<!--{/if}-->
+				<!--{if $article.next}-->
+				<a href="{$article.next.url}" class="next_detail">下一篇：{$article.next.title}<b
+					class="icon icon_arrow_right"></b></a>
+				<!--{/if}-->
+			</div>
+			<div class="detail_ctrl">
+				<!--{if $web_comment}-->
+				<a href="javascript:void(0)"
+					onclick="window.location.href='#comment_tb'" class="goto_talk">我要发言</a>
+				<!--{/if}-->
+				<a href="javascript:void(0)" onclick="loadInfo({$article.id}, 'up')"
+					class="goto_ding"><em id="p_c_up_{$article.id}">{$article.up}</em><span>我顶</span></a>
+				<a href="javascript:void(0)"
+					onclick="loadInfo({$article.id}, 'down')" class="goto_down"><em
+					id="p_c_down_{$article.id}">{$article.down}</em><span>我踩</span></a> <a
+					href="javascript:void(0)"
+					onclick="window.location.href='{$cate.url}'" class="goto_back">返回上级</a>
+			</div>
+
+			<div class="detail_rela">
+				<ul>
+					<!--{foreach @article($article.cid, 0, 12) as $val}-->
+					<li><a href="{$val.url}">·{@cutstr($val.title, 12)}</a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+
+			<!--评论-->
+			<!--{if $web_comment}-->
+			<div id="comment_tb"></div>
+			<!--{/if}-->
+
+		</div>
+		<!-- 详细内容 结束 -->
+	</div>
+	<!-- 主要内容 结束 -->
+	<!-- 侧边栏 开始 -->
+	<div class="side">
+		<!-- 特别推荐 开始 -->
+		<div class="box_2 commend_pic_box">
+			<div class="tit">
+				<h3>特别推荐</h3>
+			</div>
+			<div class="cont">
+				<ol>
+					<!--{foreach @article(0, "3,4,5", 10) as $key => $val}-->
+					<!--{eval $i = $key + 1}-->
+					<!--{if $i < 5}-->
+					<li class="top_num{if 1 == $i%2} top_num_1{/if}"><span
+						class="list_num num_{$i}">{$i}</span> <a href="{$val.url}"
+						title="{$val.title}"><img src="{@image($val.cover, 120, 90)}"
+							alt="{$val.title}" /></a> <a href="{$val.url}" title="{$val.title}">{@cutstr($val.title,
+							10)}</a></li>
+					<!--{else}-->
+					<li><span class="list_num num_{$i}">{$i}</span> <a
+						href="{$val.url}" title="{$val.title}">{@cutstr($val.title,
+							15)}</a></li>
+					<!--{/if}-->
+					<!--{/foreach}-->
+				</ol>
+			</div>
+		</div>
+		<!-- 特别推荐 结束 -->
+		<!-- 搜索 开始 -->
+		<div class="box_1 search_box">
+			<div class="tit">
+				<h3>搜索</h3>
+			</div>
+			<div class="cont">
+				<input type="text" value="{$keyword}" class="search_in" id="keyword" />
+				<button type="button" class="btn_normal btn_search"
+					onclick="subsearch('keyword')">搜索</button>
+			</div>
+		</div>
+		<!-- 搜索 结束 -->
+		<div class="adv_side">{@adsense('article-right')}</div>
+		<!-- 频道精选 开始 -->
+		<div class="box_2 nice_pic_box">
+			<div class="tit">
+				<h3>频道精选</h3>
+			</div>
+			<div class="cont">
+				<ul>
+					<!--{foreach @article($article.cid, 2, 4) as $val}-->
+					<li><a href="{$val.url}"><img
+							src="{@image($val.cover, 120, 90)}" alt="{$val.title}" /></a><a
+						href="{$val.url}">{@cutstr($val.title, 10)}</a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+		</div>
+		<!-- 频道精选 结束 -->
+		<!-- 人气排行 开始 -->
+		<div class="box_2 week_hot_box person_love_box">
+			<div class="tit">
+				<h3>人气排行</h3>
+			</div>
+			<div class="cont">
+				<ol>
+					<!--{foreach @article(0, 0, 15, 'hits') as $key => $val}-->
+					<!--{eval $i = $key + 1}-->
+					<li><span class="list_num num_{$i}">{$i}</span><a
+						href="{$val.url}" title="{$val.title}">{@cutstr($val.title,
+							15)}</a></li>
+					<!--{/foreach}-->
+				</ol>
+			</div>
+		</div>
+		<!-- 人气排行 结束 -->
+	</div>
+	<!-- 侧边栏 结束 -->
+</div>
+
+
+<!--{include footer.html}-->

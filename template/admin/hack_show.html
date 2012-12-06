@@ -1,0 +1,41 @@
+{include header.html}
+
+<script type="text/javascript">
+function setStauts(cid, status) {
+	$.get('?c=Cate&a=setStatus&cid=' + cid + '&status=' + status, null, function(rs){self.location='?c=Cate&a=show'});
+}
+</script>
+<form action="?c=Hack&a=show" method="post" name="myform" id="myform">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title">
+			<td colspan="15">插件列表</td>
+		</tr>
+		<tr class="list_head ct">
+			<td width="50">标识</td>
+			<td>插件名</td>
+			<td>作者</td>
+			<td>前端开启</td>
+
+		</tr>
+		<!--{foreach $hList as $val}-->
+		<tr class="tr ct">
+			<td class="lt">{$val.key}</td>
+			<td class="lt"><a href="?s={$val.name}">{$val.name}</a></td>
+
+			<td class="td"><neq name="gxcms.mid" value="9">{$val.author}</neq></td>
+			<td class="td"><select name="open[{$val.key}]">
+					<option value="1" {if '1' ==$val.open}selected{/if}>启用</option>
+					<option value="0" {if '0' ==$val.open}selected{/if}>停用</option>
+			</select></td>
+
+		</tr>
+		<!--{/foreach}-->
+		<tr>
+			<td colspan="15" bgcolor="#FFFFFF"><input type="hidden"
+				name="submit" value="true" /> <input class="bginput" type="submit"
+				id="checkall" value="确定"> &nbsp;</td>
+		</tr>
+	</table>
+</form>
+{include footer.html}

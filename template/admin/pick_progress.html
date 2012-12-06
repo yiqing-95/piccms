@@ -1,0 +1,44 @@
+{include 'header.html'}
+<script type="text/javascript">
+function showProgress(msg) {
+	$('#progress').append(msg);
+	$('#progress').append("\r\n");
+	$('#progress').scrollTop($('#progress').attr('scrollHeight'));
+}
+
+/*开始采集*/
+function pickStart() {
+	var url = '?c=Pick&a=doList&inframe=true&id={$id}';
+	$('#ajax-frame').attr('src', url);
+}
+
+jQuery(function($){
+	showProgress('开始采集...');
+	pickStart();
+});
+</script>
+
+<form action="?c=Pick&a=export" method="post" id="myform" name="add">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title">
+			<td colspan="12">采集进程</td>
+		</tr>
+		<tr class="tr ct">
+			<td class="lt"><span class="fl"><input class="bginput"
+					type="button" id="checkall2"
+					onclick="self.location = '?c=Pick&amp;a=show'" value="停止采集" /></span> <span
+				class="fl"><iframe name="ajax-frame" id="ajax-frame"
+						width="700" scrolling="no" height="25" frameborder="0"
+						marginheight="0" marginwidth="0" topmargin="0"
+						allowtransparency="true" src="?c=Frame"></iframe></span></td>
+		</tr>
+		<tr class="tr ct">
+			<td class="lt"><textarea readonly="readonly" name="progress"
+					cols="130" rows="20" id="progress"></textarea></td>
+		</tr>
+	</table>
+
+
+</form>
+{include 'footer.html'}

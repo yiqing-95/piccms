@@ -1,0 +1,43 @@
+{include "header.html"}
+<form action="?c=Data&a=del" method="post" id="myform" name="myform">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+
+		<tr class="table_title">
+			<td colspan="6">数据库分卷还原</td>
+		</tr>
+		<tr class="list_head ct">
+			<td width="60">编号</td>
+			<td>文件名</td>
+			<td width="50">卷号</td>
+			<td width="60">文件大小</td>
+			<td width="150">备份时间</td>
+			<td width="120">操作</td>
+		</tr>
+		<!--{foreach $sqlFile as $key => $val}-->
+		<tr class="tr">
+			<td class="lt"><input type="checkbox" name="ids[]"
+				value="{$val.filename}" class="noborder">{echo $key+1}</td>
+			<td class="lt">{$val.filename}</td>
+			<td class="td ct">{$val.page}</td>
+			<td class="td ct">{$val.filesize}</td>
+			<td class="td ct">{$val.maketime}</td>
+			<td class="td ct"><a href="?c=Data&a=import&id={$val.pre}"
+				onClick="return confirm('导入数据会删除现在数据库的所有信息,请确定是否导入?')">导入</a> | <a
+				href="?c=Data&a=del&ids[]={$val.filename}"
+				onClick="return confirm('确定删除?')">删除</a></td>
+		</tr>
+		<!--{/foreach}-->
+		<tr class="tr">
+			<td colspan="6">说明:导入时只需要点导入任意一个文件,程序会自动导入剩余文件!</td>
+		</tr>
+		<tr>
+			<td colspan="6" class="tr"><input type="button" class="bginput"
+				id="checkall" value="全/反选" onClick="$.selectAll('ids[]');">
+				<input type="submit" class="bginput" value="批量删除"
+				onClick="return confirm('确定删除?')" /></td>
+		</tr>
+
+	</table>
+</form>
+{include "footer.html"}

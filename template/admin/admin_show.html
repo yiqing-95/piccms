@@ -1,0 +1,79 @@
+{include header.html}
+
+
+<table width="98%" border="0" cellpadding="4" cellspacing="1"
+	class="table">
+	<tr class="table_title">
+		<td colspan="8">管理员列表</td>
+	</tr>
+	<tr class="list_head ct">
+		<td width="60">编号</td>
+		<td>帐号</td>
+		<td width="200">E-mail</td>
+		<td width="150">管理组</td>
+		<td width="120">操作</td>
+	</tr>
+
+	<tbody class="list_tbody">
+		<!--{foreach $dataList as $val}-->
+		<tr class="tr ct">
+			<td class="td">{$val.uid}</td>
+			<td class="lt">{$val.name}</td>
+			<td class="td">{$val.email}</td>
+			<td class="td">{$pres[$val.pre]}</td>
+			<td class="td"><a href="?c=Admin&a=show&uid={$val.uid}#add">修改</a>
+				| <a href="javascript:void(0);"
+				onclick="$.alerts.confirm('确定删除吗?', null, function(r){ if(r){ self.location='?c=Admin&a=del&uid={$val.uid}';  }})">删除</a>
+			</td>
+		</tr>
+		<!--{/foreach}-->
+	</tbody>
+
+</table>
+
+
+<form action="?c=Admin&a=show" method="post">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title" id="add">
+			<td colspan="2">{if $uid}修改{else}添加{/if}管理员</td>
+		</tr>
+		<tr class="tr">
+			<td width="100">帐号:</td>
+			<td><input name="name" type="text" id="name"
+				style="width: 200px" value="{$name}" maxlength="50"
+				{if $uid}disabled="disabled"{/if}> *</td>
+		</tr>
+		<tr class="tr">
+			<td>密码:</td>
+			<td><input name="password" type="password" id="password"
+				style="width: 200px" size="40" maxlength="250"> 留空不更改</td>
+		</tr>
+		<tr class="tr">
+			<td>确认密码:</td>
+			<td><input name="password2" type="password" id="password2"
+				style="width: 200px" size="40" maxlength="250"></td>
+		</tr>
+		<tr class="tr">
+			<td>E-mail</td>
+			<td><input name="email" type="text" id="email"
+				style="width: 200px" value="{$email}" size="40" maxlength="250" /></td>
+		</tr>
+		<tr class="tr">
+			<td>管理组</td>
+			<td><select name="pre">
+					<!--{foreach $pres as $key => $val}-->
+					<option value="{$key}" {if $key==$pre}selected{/if}>{$val}</option>
+					<!--{/foreach}-->
+			</select></td>
+		</tr>
+		<tr class="tr">
+			<td>&nbsp;</td>
+			<td><input type="hidden" name="uid" value="{$uid}" /> <input
+				class="bginput" type="submit" name="submit" value="提交" /></td>
+		</tr>
+	</table>
+</form>
+
+
+{include footer.html}

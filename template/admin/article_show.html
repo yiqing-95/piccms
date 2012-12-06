@@ -1,0 +1,238 @@
+{include "header.html"}
+
+<style>
+</style>
+<script type="text/javascript">
+/*排序*/
+function orderby(order, by) {
+	$('#order').val(order);
+	$('#by').val(by);
+	search_submit();
+}
+/*分页*/
+function showpage(p) {
+	$('#p').val(p);
+	search_submit();
+}
+function search_submit() {
+	$('#myform').attr('action', '?c=Article&a=show');
+	$('#myform').submit();	
+}
+
+/*切换分类*/
+function moveCate(id, cid) {
+	if (!id || id.length == 0) {
+		return $.alerts.alert("请选择一篇文章");	
+	}
+	$.post('?c=Article&a=moveCate',
+		{id: id, cid: cid},
+		function(rs) {
+			search_submit();
+		}
+	);	
+}
+
+/*生成文章*/
+function makeHtml() {
+	id = $.checkBoxValue('ids[]');
+	if (!id || id.length == 0) {
+		return $.alerts.alert("请选择一篇文章");	
+	}
+	window.location.href = '?c=Html&a=makeByArticleId&id=' + id.join(':');	
+}
+
+/*设置状态*/
+function setStatus(id, status) {
+	if (!id || id.length == 0) {
+		return $.alerts.alert("请选择一篇文章");	
+	}
+	$.post('?c=Article&a=setStatus',
+		{id: id, status: status},
+		function(rs) {
+			search_submit();
+		}
+	);
+}
+
+/*设置星级*/
+function setStar(id, star) {
+	if (!id || id.length == 0) {
+		return $.alerts.alert("请选择一篇文章");	
+	}
+	$.post('?c=Article&a=setStar',
+		{id: id, star:star},
+		function(rs) {
+			search_submit();
+		}
+	);
+}
+
+/*删除*/
+function delArticle(id) {
+	if (!id || id.length == 0) {
+		return $.alerts.alert("请选择一篇文章");	
+	}
+	$.post('?c=Article&a=delArticle',
+		{id: id},
+		function(rs) {
+			search_submit();
+		}
+	);	
+}
+</script>
+<form action="?c=Article&a=show" method="post" name="myform" id="myform">
+	<table width="98%" border="0" cellpadding="5" cellspacing="1"
+		class="table">
+
+		<tr>
+			<td colspan="9" class="table_title"><span class="fl">文章数据管理</span><span
+				class="fr"><a href="?c=Article&a=add">添加文章</a></span></td>
+		<tr class="tr">
+			<td colspan="9">搜索文章 {$cTreeStr} 星级 <select name="star"
+				class="select">
+					<option value="ALL" {if 'all'==$star}selected{/if}>全部</option>
+					<option value="1" {if '1'==$star}selected{/if}>☆</option>
+					<option value="2" {if '2'==$star}selected{/if}>☆☆</option>
+					<option value="3" {if '3'==$star}selected{/if}>☆☆☆</option>
+					<option value="4" {if '4'==$star}selected{/if}>☆☆☆☆</option>
+					<option value="5" {if '5'==$star}selected{/if}>☆☆☆☆☆</option>
+			</select> 状态 <select name="status" class="select">
+					<option value="ALL" {if 'all'==$status}selected{/if}>全部</option>
+					<option value="1" {if '1'==$status}selected{/if}>显示</option>
+					<option value="0" {if '0'==$status}selected{/if}>隐藏</option>
+			</select> <input name="keyword" type="text" id="keyword" size="20"
+				value="{$keyword}"> <input name="order" type="hidden"
+				id="order" value="{$order}"> <input name="by" type="hidden"
+				id="by" value="{$by}"> <input name="p" type="hidden" id="p"
+				value="{$p}"> <input type="submit"
+				onclick="search_submit();" value="搜 索" class="bginput" /> <input
+				type="button" onclick="self.location='?c=Article&a=show'"
+				value="显示所有" class="bginput" /></td>
+		</tr>
+		<tr class="list_head ct">
+			<td width="80">编号id {if 'DESC'==$by} <a
+				href="javascript:void(0)" onclick="orderby('id', 'ASC');"><img
+					src="images/admin/up.gif" border="0" title="点击按ID升序排列"></a>
+				{else} <a href="javascript:void(0)" onclick="orderby('id', 'DESC');"><img
+					src="images/admin/down.gif" border="0" title="点击按ID降序排列"></a>
+				{/if}
+			</td>
+
+			<!--{if $web_admin_cover}-->
+			<td width="50">封面</td>
+			<!--{/if}-->
+
+			<td>标题</td>
+			<td>标签</td>
+			<td width="80">分类</td>
+			<td width="70">人气 {if 'DESC'==$by} <a href="javascript:void(0)"
+				onclick="orderby('hits', 'ASC');"><img src="images/admin/up.gif"
+					border="0" title="点击按人气升序排列"></a> {else} <a
+				href="javascript:void(0)" onclick="orderby('hits', 'DESC');"><img
+					src="images/admin/down.gif" border="0" title="点击按人气降序排列"></a>
+				{/if}
+			</td>
+			<td width="90">推荐星级 {if 'DESC'==$by} <a
+				href="javascript:void(0)" onclick="orderby('star', 'ASC');"><img
+					src="images/admin/up.gif" border="0" title="点击按星级升序排列"></a>
+				{else} <a href="javascript:void(0)"
+				onclick="orderby('star', 'DESC');"><img
+					src="images/admin/down.gif" border="0" title="点击按星级降序排列"></a>
+				{/if}
+			<td width="150">更新时间 {if 'DESC'==$by} <a
+				href="javascript:void(0)" onclick="orderby('addtime', 'ASC');"><img
+					src="images/admin/up.gif" border="0" title="点击按时间升序排列"></a>
+				{else} <a href="javascript:void(0)"
+				onclick="orderby('addtime', 'DESC');"><img
+					src="images/admin/down.gif" border="0" title="点击按时间降序排列"></a>{/if}
+
+			
+			<td width="200">操作</td>
+		</tr>
+
+		<tbody class="list_tbody">
+			<!--{foreach $articleList as $val}-->
+			<tr class="tr">
+				<td><input name='ids[]' type='checkbox' value='{$val.id}'
+					class="noborder"> {$val.id}</td>
+
+				<!--{if $web_admin_cover}-->
+				<td>
+					<!--{if $val.cover}--> <a href="{$val.cover_url}" target="_blank">
+						<img src="{$val.cover_thumb_url}" width="48" height="48" />
+				</a> <!--{else}--> -- <!--{/if}-->
+				</td>
+				<!--{/if}-->
+
+				<td><a href="{$val.url}" target="_blank"
+					{if $val.color}style="color: {$val.color"{/if}>{$val.title}</a></td>
+				<td>{foreach $val.tagArr as $item} <a
+					href="{@load_model('Tag')->searchurl($item)}" target="_blank">{$item}</a>
+					{/foreach}
+				</td>
+				<td class="td ct"><a href="javascript:void(0)"
+					onclick="$('#cid').val({$val.cid}); search_submit();">{$val.cate.name}</a></td>
+				<td class="td ct">{$val.hits}</td>
+				<td id="stars_{$gxcms.id}">
+					<!--{eval for($i=1; $i<=5; $i++):}--> {if $i <= $val.star} <span
+					class="star-1" onclick="setStar({$val.id}, {$i})" title="推荐为{$i}星级"></span>
+					{else} <span class="star-0" onclick="setStar({$val.id}, {$i})"
+					title="推荐为{$i}星级"></span> {/if} <!--{eval endfor}-->
+				</td>
+				<td class="td ct">{@idate($val.addtime)}</td>
+				<td class="td ct"><a
+					href="?c=Attach&a=saveByArticleId&id={$val.id}" title="点击保存远程图片">保存</a>
+					| <a href="?c=Html&a=makeByArticleId&id={$val.id}" title="点击生成文章">生成</a>
+					| <a href="?c=Article&a=add&id={$val.id}" title="点击编辑文章">编辑</a> | <a
+					href="javascript:void(0)"
+					onclick="$.alerts.confirm('确认要删除? 删除后不可恢复!', null, function(r){ if(r){ delArticle({$val.id}) } })"
+					title="点击删除文章">删除</a> | {if $val.status} <a
+					href="javascript:void(0)" onclick="setStatus({$val.id}, 0);"
+					title="点击隐藏文章">显示</a> {else} <a class="red"
+					href="javascript:void(0)" onclick="setStatus({$val.id}, 1);"
+					title="点击显示文章">隐藏</a> {/if}</td>
+			</tr>
+			<!--{/foreach}-->
+		</tbody>
+
+		<tr class="tr">
+			<td colspan="9"><div class="pagelist">{$pageHtml}</div></td>
+		</tr>
+	</table>
+	<table width="98%" border="0" cellpadding="5" cellspacing="1"
+		class="table">
+		<tr class="tr">
+			<td colspan="9" valign="middle"><input type="button"
+				onclick="$.selectAll('ids[]');" id="checkall" value="全/反选"
+				class="bginput"> <input type="button" value="批量显示"
+				class="bginput" onclick="setStatus($.checkBoxValue('ids[]'), 1)" />
+
+				<input type="button" value="批量隐藏" class="bginput"
+				onclick="setStatus($.checkBoxValue('ids[]'), 0)" /> <input
+				type="button" value="批量删除"
+				onclick="$.alerts.confirm('确认要删除? 删除后不可恢复!', null, function(r){ if(r){ delArticle($.checkBoxValue('ids[]')) } })"
+				class="bginput" /> <input type="button" value="批量生成"
+				onclick="makeHtml();" id="createhtml" name="Infoid" class="bginput" />
+				<input type="button" onclick="$('#set_star_div').toggle();"
+				id="setstar" name="setstar" class="bginput" value="设置星级" /> <span
+				style="display: none" id="set_star_div"> <select
+					name="settostar" class="select" id="settostar">
+						<option value="1">☆</option>
+						<option value="2">☆☆</option>
+						<option value="3">☆☆☆</option>
+						<option value="4">☆☆☆☆</option>
+						<option value="5">☆☆☆☆☆</option>
+				</select> <input type="button" class="bginput" value="确定"
+					onclick="setStar($.checkBoxValue('ids[]'), $('#settostar').val());" />
+			</span> <input type="button" onclick="$('#change_cate_div').toggle();"
+				id="changecid" name="changecid" class="bginput" value="批量移动" /> <span
+				style="display: none" id="change_cate_div"> {$moveCTreeStr} <input
+					type="button" class="bginput" value="确定转移"
+					onclick="moveCate($.checkBoxValue('ids[]'), $('#movecid').val());" />
+			</span></td>
+		</tr>
+	</table>
+</form>
+
+
+{include "footer.html"}

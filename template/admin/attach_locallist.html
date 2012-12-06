@@ -1,0 +1,24 @@
+{if $localList}
+<table width="98%" border="0" cellspacing="1" bgcolor="#ffffff"
+	id="attach-list">
+	{foreach $localList as $val}
+	<tr bgcolor="#FFFFFF" id="attach-list-li-{$val.id}"
+		style="border-bottom: 1px solid #CCC">
+		<td width="60"><a href="{$val.url}" target="_blank"><img
+				src="{$val.thumb_url}" border="0" class="thumb" title="{$val.name}"></a></td>
+		<td width="500"><em
+			style="width: 500px; overflow: hidden; display: block">{$val.file}</em>
+			<textarea name="attach_remark[{$val.id}]" class="attach-list-text">{$val.remark}</textarea></td>
+		<td><a href="javascript:void(0)" onclick="delAttach({$val.id})"
+			title="删除这个附件">删除</a>&nbsp; {if 1==$val.status} <a
+			href="javascript:void(0)" onclick="setStatus({$val.id}, 0)"
+			title="点击隐藏该图片">显示</a> {else} <a class="red"
+			href="javascript:void(0)" onclick="setStatus({$val.id}, 1)"
+			title="点击显示该图片">隐藏</a> {/if} &nbsp; <a href="javascript:void(0)"
+			onclick="setCover({$val.id}, '{$val.file}')" title="设置成封面">设为封面</a> <span
+			style="display: none" class="cover_tag" id="cover_tag_{$val.id}"><img
+				src="images/admin/cover.gif" align="absmiddle" /></span></td>
+	</tr>
+	{/foreach}
+</table>
+{else} 还没有任何图片 {/if}

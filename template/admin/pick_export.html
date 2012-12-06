@@ -1,0 +1,22 @@
+{include 'header.html'}
+<form action="?c=Pick&a=export" method="post" id="myform" name="add">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title">
+			<td colspan="12">导出采集节点规则</td>
+		</tr>
+		<tr class="tr ct">
+			<td class="lt"><textarea readonly="readonly" name="codedata"
+					cols="90" rows="24">{$text}</textarea></td>
+		</tr>
+		<tr>
+			<td colspan="12" bgcolor="#FFFFFF"><input type="hidden"
+				name="id" value="{$id}" /> <input type="hidden" name="submit"
+				value="true" /> <input class="bginput" type="submit" id="checkall"
+				value="规则另存为" /></td>
+		</tr>
+	</table>
+
+
+</form>
+{include 'footer.html'}

@@ -1,0 +1,246 @@
+<!--{include header.html}-->
+
+<script type="text/javascript">
+/*页面初始化*/
+$(document).ready(function() {
+new weeFoucs({
+    'delayTime': 3000,
+    'target': '#ifocus_piclist li',
+    'control': '#ifocus_btn li',
+    'title': '#ifocus_tx li',
+    'curClass': 'sel'
+});
+});
+</script>
+<div class="container">
+	<!-- 主要内容 开始 -->
+	<div class="main">
+		<!-- 轮播图 开始 -->
+		<div class="flash_pic">
+			<div class="big_pic">
+				<ul id="ifocus_piclist">
+					<!--{foreach @article(0, 5, 6) as $val}-->
+					<li style="display: none"><a href="{$val.url}"><img
+							src="{@image($val.cover, 510, 360)}" alt="{$val.title}"
+							width="510" height="360" /></a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+			<div class="pic_list">
+				<ul id="ifocus_btn">
+					<!--{foreach @article(0, 5, 6) as $val}-->
+					<li><a href="{$val.url}"><img width="50" height="50"
+							src="{@image($val.cover, 50, 50)}" alt="{$val.title}" /><strong>{@cutstr($val.title,
+								10)}</strong><span>{@cutstr($val.des, 20)}</span></a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+		</div>
+		<!-- 轮播图 结束 -->
+	</div>
+	<!-- 主要内容 结束 -->
+
+	<!-- 侧边栏 开始 -->
+	<div class="side">
+		<!-- 最新图集 开始 -->
+		<div class="box box_tab txt_list_tab">
+			<div class="tit">
+				<a href="javascript:void(0)" class="on" id="tab_1"
+					onmouseover="$.showTab(1, 2)">最新图集</a> <a href="javascript:void(0)"
+					id="tab_2" onmouseover="$.showTab(2, 2)">人气图集</a>
+			</div>
+			<div class="cont" id="showtab_1">
+				<ul>
+					<!--{foreach @article(0, 0, 9) as $val}-->
+					<li><a href="{$val.url}" title="{$val.title}">·{@cutstr($val.title,
+							10)}</a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+
+			<div class="cont" id="showtab_2" style="display: none">
+				<ul>
+					<!--{foreach @article(0, 0, 9, 'hits') as $val}-->
+					<li><a href="{$val.url}" title="{$val.title}">·{@cutstr($val.title,
+							10)}</a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+		</div>
+		<!-- 最新图集 结束 -->
+		<!-- 搜索 开始 -->
+		<div class="box_1 search_box">
+			<div class="tit">
+				<h3>搜索</h3>
+			</div>
+			<div class="cont">
+				<input type="text" value="{$keyword}" class="search_in" id="keyword" />
+				<button type="button" class="btn_normal btn_search"
+					onclick="subsearch('keyword')">搜索</button>
+			</div>
+		</div>
+		<!-- 搜索 结束 -->
+	</div>
+	<!-- 侧边栏 结束 -->
+
+
+	<!-- 高清大图 开始 -->
+	<div class="box_2 change_pic_box">
+		<div class="tit">
+			<h3>高清大图</h3>
+		</div>
+		<div class="cont">
+			<div class="change_pic">
+				<ul id="change_div_1">
+					<!--{foreach @article(0, 3, "0,5") as $val}-->
+					<li><a href="{$val.url}"><img
+							src="{@image($val.cover, 155, 120)}" alt="{$val.title}" /></a><a
+						title="{$val.title}" href="{$val.url}">{@cutstr($val.title,
+							10)}</a></li>
+					<!--{/foreach}-->
+				</ul>
+
+				<ul id="change_div_2" style="display: none;">
+					<!--{foreach @article(0, 3, "5,5") as $val}-->
+					<li><a href="{$val.url}"><img
+							src="{@image($val.cover, 155, 120)}" alt="{$val.title}" /></a><a
+						title="{$val.title}" href="{$val.url}">{@cutstr($val.title,
+							10)}</a></li>
+					<!--{/foreach}-->
+				</ul>
+				<a href="javascript:changePic(1)" class="prev_pic">上一张</a> <a
+					href="javascript:changePic(0)" class="next_pic">下一张</a>
+				<script type="text/javascript">
+				var thisId = 1;
+				var maxId = 2;
+				var idName = '#change_div_';
+				function changePic(type) {
+					if (type == 1) {
+						thisId = thisId - 1;
+						if (thisId <= 0) {
+							thisId = maxId;	
+						}
+					} else {
+						thisId = thisId + 1;
+						if (thisId > maxId) {
+							thisId = 1;	
+						}
+					}
+					for (i = 1; i <= maxId; i++) {
+						$(idName + i).hide();
+					}
+					$(idName + thisId).show();
+				}
+				</script>
+			</div>
+		</div>
+
+	</div>
+	<!-- 高清大图 结束 -->
+
+
+	<div class="adv_contianer">{@adsense('index-top')}</div>
+
+	<!-- 分类图库 开始 -->
+	<!--{foreach $cateTree as $cate}-->
+	<!--{if $cate.status}-->
+	<div class="box_2 pic_lib_box">
+		<div class="tit">
+			<h3>{$cate.name}</h3>
+			<a href="{$cate.url}" class="more">更多&gt;&gt;</a>
+		</div>
+		<div class="cont">
+			<div class="big_pic">
+				<!--{foreach @article($cate.cid, 2, 1) as $val}-->
+				<a href="{$val.url}"><img src="{@image($val.cover, 350, 370)}"
+					alt="{$val.title}" /></a><a href="{$val.url}" title="{$val.title}">{@cutstr($val.title,
+					15)}</a> <em class="pic_icon pic_hot_icon">HOT</em>
+				<!--{/foreach}-->
+			</div>
+			<div class="pic_list">
+				<ul>
+					<!--{foreach @article($cate.cid, 1, 8) as $val}-->
+					<li><a href="{$val.url}"><img
+							src="{@image($val.cover, 130, 170)}" alt="{$val.title}" /></a><a
+						href="{$val.url}" title="{$val.title}">{@cutstr($val.title,
+							10)}</a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--{/if}-->
+	<!--{/foreach}-->
+	<!-- 分类图库 结束 -->
+
+	<div class="adv_contianer">{@adsense('index-bottom')}</div>
+
+	<!-- 主要内容 开始 -->
+	<div class="main">
+		<!-- 精彩推荐 开始 -->
+		<div class="box nice_pic_box">
+			<div class="tit">
+				<h3>精彩推荐</h3>
+			</div>
+			<div class="cont">
+				<ul>
+					<!--{foreach @article(0, 4, 5) as $val}-->
+					<li><a href="{$val.url}"><img
+							src="{@image($val.cover, 130, 170)}" alt="{$val.title}"
+							width="130" height="170" /></a>
+						<p class="pic_name">
+							<a href="javascript:void(0)">{@cutstr($val.title, 11)}</a>
+						</p></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+			<a href="javascript:void(0)" class="more">更多&gt;&gt;</a>
+		</div>
+		<!-- 精彩推荐 结束 -->
+	</div>
+	<!-- 主要内容 结束 -->
+
+	<!-- 侧边栏 开始 -->
+	<div class="side">
+		<!-- 热门标签 开始 -->
+		<div class="box_1 hot_tag_box">
+			<div class="tit">
+				<h3>热门标签</h3>
+			</div>
+			<div class="cont">
+				<div class="tag_list">
+					<!--{foreach @tags(40) as $val}-->
+					<a href="{$val.url}" class="tag_{$val.star}">{$val.tag}</a>
+					<!--{/foreach}-->
+				</div>
+			</div>
+		</div>
+		<!-- 热门标签 开始 -->
+	</div>
+	<!-- 侧边栏 结束 -->
+
+
+	<!-- 友情链接 开始 -->
+	<div class="box f_link_box">
+		<div class="tit">
+			<h3>友情链接</h3>
+		</div>
+		<div class="cont">
+			<div class="txt_link">
+				<!--{foreach @links(1) as $val}-->
+				<a href="{$val.url}" target="_blank">{$val.title}</a>
+				<!--{/foreach}-->
+			</div>
+			<div class="pic_link">
+				<!--{foreach @links(2) as $val}-->
+				<a href="{$val.url}" target="_blank" class="link_logo"><img
+					src="{$val.logo}" title="{$val.title}" alt="{$val.title}"
+					width="88" height="31" /></a>
+				<!--{/foreach}-->
+			</div>
+		</div>
+	</div>
+	<!-- 友情链接 结束 -->
+</div>
+
+<!--{include footer.html}-->

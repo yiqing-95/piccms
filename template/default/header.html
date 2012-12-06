@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$web_name} {if $title} - {$title}{/if} - Powered by
+	{$sys_name}</title>
+<meta name="keywords"
+	content="{$web_keywords},{$cate.ckeywords},{$title}">
+	<meta name="description"
+		content="{$web_description},{$cate.cdescription},{$title}">
+		<link rel="stylesheet" href="{$web_path}images/default/piccms.css"
+			media="screen" />
+		<script src="{$web_path}images/js/jquery-1.4.4.min.js"></script>
+		<script src="{$web_path}images/js/system.js"></script>
+		<script type="text/javascript">
+var web_script = "{$web_script}";
+var web_url = "{$web_url}";
+var web_name = "{$web_name}";
+</script>
+</head>
+
+<body>
+	<div class="wrap">
+		<div class="header">
+			<h1 class="logo">
+				<a href="{$web_url}"><span>PICCMS</span><img
+					src="{$web_path}images/logo.png" alt="{$web_name}" /></a>
+			</h1>
+			<div class="ad_top">{@adsense('banner')}</div>
+			<!-- 导航 开始 -->
+			<div class="nav">
+				<b class="nav_left"></b>
+				<div class="nav_bar">
+					<ul>
+						<li><a href="{$web_url}"><span>首页</span></a></li>
+						<!--{foreach $cateTree as $val}-->
+						<!--{if $val.status}-->
+						<li cid="{$val.cid}"><a href="{$val.url}"
+							{if $cid==$val.cid}class="current"{/if}><span>{$val.name}</span></a></li>
+						<!--{/if}-->
+						<!--{/foreach}-->
+						<li><a href="http://www.piccms.com" target="_blank"><span>论坛</span></a></li>
+					</ul>
+
+					<!-- 下级分类 -->
+					<!--{if $cate.parent.son}-->
+					<div class="sub_nav">
+						<!--{foreach $cate.parent.son as $val}-->
+						<a href="{$val.url}">{$val.name}</a>
+						<!--{/foreach}-->
+					</div>
+					<!--{elseif $cate.son}-->
+					<div class="sub_nav">
+						<!--{foreach $cate.son as $val}-->
+						<a href="{$val.url}">{$val.name}</a>
+						<!--{/foreach}-->
+					</div>
+					<!--{/if}-->
+
+
+				</div>
+				<div class="other_nav">
+					<a href="{@rssurl()}"><b class="icon icon_fav"></b>订阅RSS</a> <a
+						href="javascript:alert('该功能尚未开启');"><b class="icon icon_send"></b>我要投稿</a>
+				</div>
+				<b class="nav_right"></b>
+			</div>
+			<!-- 导航 结束 -->
+		</div>

@@ -1,0 +1,77 @@
+{include header.html}
+
+<!--{if $linkList}-->
+<table width="98%" border="0" cellpadding="4" cellspacing="1"
+	class="table">
+	<tr class="table_title">
+		<td colspan="7">友情链接列表</td>
+	</tr>
+	<tr class="list_head ct">
+		<td width="60">编号</td>
+		<td>网站名称</td>
+		<td width="250">网站地址</td>
+		<td width="250">网站LOGO</td>
+		<td width="70">顺序</td>
+		<td width="70">形式</td>
+		<td width="100">操作</td>
+	</tr>
+	<tbody class="list_tbody">
+		<!--{foreach $linkList as $val}-->
+		<tr class="tr ct">
+			<td class="td">{$val.id}</td>
+			<td class="td">{$val.title}</td>
+			<td class="td">{$val.url}</td>
+			<td class="td">{if $val.logo}<img src="{$val.logo}" />{/if}
+			</td>
+			<td class="td">{$val.oid}</td>
+			<td class="td">{if "1"==$val.type} 文字 {else} 图片 {/if}</td>
+			<td class="td"><a href="?c=Link&id={$val.id}#add_edit_link">修改</a>
+				| <a href="?c=Link&id={$val.id}&a=del"
+				onclick="return confirm('确定删除该友情链接吗?')">删除</a></td>
+		</tr>
+		<!--{/foreach}-->
+	</tbody>
+</table>
+<!--{/if}-->
+
+<form action="?c=Link&a=add" method="post">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title" id="add_edit_link">
+			<td colspan="2">{if $id}修改{else}添加{/if}友情链接</td>
+		</tr>
+		<tr class="tr">
+			<td width="100">网站名称:</td>
+			<td><input name="title" type="text" maxlength="50"
+				value="{$title}" style="width: 200px"> *</td>
+		</tr>
+		<tr class="tr">
+			<td>网站地址:</td>
+			<td><input name="url" type="text" size="40" value="{$url}"
+				maxlength="250" style="width: 200px"> *</td>
+		</tr>
+		<tr class="tr">
+			<td>LOGO地址：</td>
+			<td><input name="logo" type="text" size="40" value="{$logo}"
+				maxlength="250" style="width: 200px"></td>
+		</tr>
+		<tr class="tr">
+			<td>连接排序：</td>
+			<td><input name="oid" type="text" value="{$oid}" maxlength="5"
+				style="width: 40px; text-align: center" title="越小越前面"> 越小越前面</td>
+		</tr>
+		<tr class="tr">
+			<td>链接类型：</td>
+			<td><select name="type">
+					<option value="1" {if "1" ==$type}selected{/if}>文字</option>
+					<option value="2" {if "2" ==$type}selected{/if}>图片</option>
+			</select></td>
+		</tr>
+		<tr class="tr">
+			<td>&nbsp;</td>
+			<td><input type="hidden" name="id" value="{$id}" /> <input
+				class="bginput" type="submit" name="submit" value="提交" /></td>
+		</tr>
+	</table>
+</form>
+{include footer.html}

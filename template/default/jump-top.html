@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$web_name}</title>
+<style>
+html,body {
+	margin: 0;
+	padding: 0
+}
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0
+}
+
+.logo {
+	float: left;
+}
+
+.topMain {
+	font-size: 12px;
+	background: #0CC;
+	margin: 0;
+	padding: 0
+}
+
+.topMain ul {
+	overflow: hidden;
+	width: 1680px;
+}
+
+.topMain ul li {
+	float: left;
+	margin: 3px 5px;
+	text-align: center;
+	background: #fff
+}
+
+.topMain ul li img {
+	border: 2px solid #fff
+}
+</style>
+</head>
+
+<body>
+	<div class="topMain">
+		<div class="logo">
+			<a href="{$web_url}" target="_parent"> <img
+				style="margin-top: 20px;" title="{$web_name}" border=0
+				src="{$web_path}images/logo.png"></a>
+		</div>
+		<ul>
+			<!--{foreach @article(0, 0, 8) as $val}-->
+			<li><a href="{$val.url}" target="_parent" title="{$val.title}"><img
+					title="{$val.title}" src="{@image($val.cover, 110, 80)}" /></a> <br />
+				<a href="{$val.url}" target="_parent" title="{$val.title}">{@cutstr($val.title,
+					9)}</a></li>
+			<!--{/foreach}-->
+			<div class="blank"></div>
+		</ul>
+	</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{include header.html}
+
+<script type="text/javascript">
+function setStauts(cid, status) {
+	$.get('?c=Cate&a=setStatus&cid=' + cid + '&status=' + status, null, function(rs){self.location='?c=Cate&a=show'});
+}
+</script>
+<form action="?c=Hack&a=show" method="post" name="myform" id="myform">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title">
+			<td colspan="17">采集节点列表</td>
+		</tr>
+		<tr class="list_head ct">
+			<td width="50">编号</td>
+			<td width="150">节点名称</td>
+			<td width="150">添加时间</td>
+			<td width="150">最后采集时间</td>
+			<td>说明</td>
+			<td width="250">操作</td>
+
+		</tr>
+
+		<tbody class="list_tbody">
+			<!--{foreach $pickList as $val}-->
+			<tr class="tr ct">
+				<td class="lt">{$val.id}</td>
+				<td class="lt">{$val.webname}</td>
+
+				<td class="td"><neq name="gxcms.mid" value="9">{@idate($val.add_time)}</neq></td>
+				<td class="td">{@idate($val.last_pick_time)}</td>
+				<td class="td"></td>
+				<td class="td"><a href="?c=Pick&a=progress&id={$val.id}">继续</a>
+					| <a href="?c=Pick&a=replay&id={$val.id}">采集</a> | <a
+					href="?c=Pick&a=add&id={$val.id}">编辑</a> | <a
+					href="?c=Pick&a=copy&id={$val.id}">复制</a> | <a
+					href="?c=Pick&a=export&id={$val.id}">导出</a> | <a
+					href="?c=Pick&a=del&id={$val.id}"
+					onclick="return confirm('确定删除该节点吗?')" title="点击删除该节点">删除</a></td>
+
+			</tr>
+			<!--{/foreach}-->
+		</tbody>
+
+	</table>
+</form>
+
+
+<form action="?c=Pick&a=import" method="post"
+	enctype="multipart/form-data">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title" id="add_edit_link">
+			<td colspan="2">导入节点规则</td>
+		</tr>
+		<tr class="tr">
+			<td width="100">网站名称:</td>
+			<td><label><input type="radio"
+					onclick="$('#fromtxt').show();$('#fromfile').hide();" class="radio"
+					id="txt" checked="checked" value="txt" name="importmode">直接导入txt文本</label>
+				<label><input type="radio"
+					onclick="$('#fromfile').show();$('#fromtxt').hide();" class="radio"
+					id="file" value="file" name="importmode">导入源码</label></td>
+		</tr>
+		<tr class="tr">
+			<td>网站地址:</td>
+			<td>
+				<div id="fromtxt">
+					<textarea name="txt" cols="70" rows="10" id="txt"></textarea>
+				</div>
+				<div id="fromfile" style="display: none">
+					<input type="file" name="upfile" />
+				</div>
+			</td>
+		</tr>
+
+		<tr class="tr">
+			<td>&nbsp;</td>
+			<td><input type="hidden" name="id" value="{$id}" /> <input
+				class="bginput" type="submit" name="submit" value="提交" /></td>
+		</tr>
+	</table>
+</form>
+
+{include footer.html}

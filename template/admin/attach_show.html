@@ -1,0 +1,168 @@
+{include "header.html"}
+
+<script type="text/javascript">
+/*排序*/
+function orderby(order, by) {
+	$('#order').val(order);
+	$('#by').val(by);
+	search_submit();
+}
+/*分页*/
+function showpage(p) {
+	$('#p').val(p);
+	search_submit();
+}
+/*状态*/
+function show_type(type) {
+	$('#type').val(type);
+	search_submit();
+}
+function search_submit() {
+	$('#myform').attr('action', '?c=Attach&a=show');
+	$('#myform').submit();	
+}
+
+/*设置状态*/
+function setStatus(id, status) {
+	if (!id || id.length == 0) {
+		return $.alerts.alert("请选择一张图片");	
+	}
+	$.post('?c=Attach&a=setStatus',
+		{id: id, status: status},
+		function(rs) {
+			search_submit();
+		}
+	);
+}
+
+
+/*删除*/
+function delAttach(id){
+	if (!id || id.length == 0) {
+		return $.alerts.alert("请选择一张图片");	
+	}
+	$.post("?c=Attach&a=delAttach", 
+		{id: id}, 
+		function(data){
+			search_submit();
+		}
+	);
+}
+
+/*保存所选图片*/
+function saveHttp(id) {
+	if (!id || id.length == 0) {
+		return $.alerts.alert("请选择一张图片");	
+	}
+	id = id.join(':');
+	window.location.href = '?c=Attach&a=saveHttp&id=' + id;	
+}
+</script>
+<form action="?c=Attach&a=show" method="post" name="myform" id="myform">
+	<table width="98%" border="0" cellpadding="5" cellspacing="1"
+		class="table">
+
+		<tr>
+			<td colspan="9" class="table_title"><span class="fl">图片管理</span></td>
+		</tr>
+		<tr class="tr">
+			<td height="36" colspan="10">状态 <select name="status"
+				class="select">
+					<option value="ALL" {if 'all'==$status}selected{/if}>全部</option>
+					<option value="1" {if '1'==$status}selected{/if}>显示</option>
+					<option value="0" {if '0'==$status}selected{/if}>隐藏</option>
+			</select> 类型 <select name="type" class="select" id="type">
+					<option value="ALL" {if 'all'==$type}selected{/if}>全部</option>
+					<option value="1" {if '1'==$type}selected{/if}>远程图片</option>
+					<option value="0" {if '0'==$type}selected{/if}>本地图片</option>
+			</select> <input name="order" type="hidden" id="order" value="{$order}">
+				<input name="by" type="hidden" id="by" value="{$by}"> <input
+				name="p" type="hidden" id="p" value="{$p}"> <input
+				type="submit" onclick="search_submit();" value="搜 索" class="bginput" />
+				<input type="button" onclick="self.location='?c=Attach&a=show'"
+				value="显示所有" class="bginput" /> <a href="?c=Attach&a=saveHttp"
+				class="button">保存所有远程图片到本地</a> 比较消耗资源, 请在系统空闲时操作
+			</td>
+		</tr>
+
+		<tr class="list_head ct">
+			<td width="80">编号id {if 'DESC'==$by} <a
+				href="javascript:void(0)" onclick="orderby('id', 'ASC');"><img
+					src="images/admin/up.gif" border="0" title="点击按ID升序排列"></a>
+				{else} <a href="javascript:void(0)" onclick="orderby('id', 'DESC');"><img
+					src="images/admin/down.gif" border="0" title="点击按ID降序排列"></a>
+				{/if}
+			</td>
+			<td width="70">缩略图</td>
+			<td width="70">类型</td>
+			<td>所属文章</td>
+			<td width="70">扩展名
+			<td width="70">大小
+			<td width="150">更新时间 {if 'DESC'==$by} <a
+				href="javascript:void(0)" onclick="orderby('addtime', 'ASC');"><img
+					src="images/admin/up.gif" border="0" title="点击按时间升序排列"></a>
+				{else} <a href="javascript:void(0)"
+				onclick="orderby('addtime', 'DESC');"><img
+					src="images/admin/down.gif" border="0" title="点击按时间降序排列"></a>{/if}
+
+			
+			<td width="150">操作</td>
+		</tr>
+
+		<tbody class="list_tbody">
+			<!--{foreach $attachList as $val}-->
+			<tr class="tr">
+				<td><input name='ids[]' type='checkbox' value='{$val.id}'
+					class="noborder"> {$val.id}</td>
+				<td class='ct'><a href="{$val.url}" target="_blank"><img
+						src="{$val.thumb_url}" style="width: 60px; height: 60px;" /></a></td>
+				<td class="ct">{if 1==$val.type}<a
+					href="javascript:show_type(1)"><span class="red">远程</span></a>{else}<a
+					href="javascript:show_type(0)">本地</a>{/if}
+				</td>
+				<td class="lt">{if $val.article_id} 【<a
+					href="?c=Article&a=show&cid={$val.cid}">{$cateList[$val.cid][name]}</a>】<a
+					href="?c=Article&a=add&id={$val.article_id}">{$val.title}</a>
+					{else} -- {/if}
+				</td>
+				<td class="ct">{$val.ext}</td>
+				<td class="ct" style="text-align: center">{$val.size}</td>
+				<td class="td ct">{$val.upload_time}</td>
+				<td class="td ct">{if 1==$val.type} <a
+					href="?c=Attach&a=saveHttp&id={$val.id}" title="点击删除附件">保存</a> |
+					{/if} <a href="javascript:void(0)"
+					onclick="$.alerts.confirm('确认要删除? 删除后不可恢复!', null, function(r){ if(r){ delAttach({$val.id}) } })"
+					title="点击删除附件">删除</a> | {if $val.status} <a
+					href="javascript:void(0)" onclick="setStatus({$val.id}, 0);"
+					title="点击隐藏附件">显示</a> {else} <a class="red"
+					href="javascript:void(0)" onclick="setStatus({$val.id}, 1);"
+					title="点击显示附件">隐藏</a> {/if}
+				</td>
+			</tr>
+			<!--{/foreach}-->
+		</tbody>
+
+		<tr class="tr">
+			<td colspan="10"><div class="pagelist">{$pageHtml}</div></td>
+		</tr>
+	</table>
+	<table width="98%" border="0" cellpadding="5" cellspacing="1"
+		class="table">
+		<tr class="tr">
+			<td colspan="9" valign="middle"><input type="button"
+				onclick="$.selectAll('ids[]');" id="checkall" value="全/反选"
+				class="bginput"> <input type="button" value="批量显示"
+				class="bginput" onclick="setStatus($.checkBoxValue('ids[]'), 1)" />
+
+				<input type="button" value="批量隐藏" class="bginput"
+				onclick="setStatus($.checkBoxValue('ids[]'), 0)" /> <input
+				type="button" value="批量删除"
+				onclick="$.alerts.confirm('确认要删除? 删除后不可恢复!', null, function(r){ if(r){ delAttach($.checkBoxValue('ids[]')) } })"
+				class="bginput" /> <input type="button" value="保存到本地"
+				onclick="saveHttp($.checkBoxValue('ids[]'))" class="bginput" /></td>
+		</tr>
+	</table>
+</form>
+
+
+{include "footer.html"}

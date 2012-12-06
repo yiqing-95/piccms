@@ -1,0 +1,78 @@
+<!--{include header.html}-->
+<div class="container">
+	<!-- 主要内容 开始 -->
+	<div class="main">
+		<!-- 图片列表 开始 -->
+		<div class="box_2 pic_list_box">
+			<div class="crumb">
+				当前位置： <a href="{$web_url}">首页</a> &gt; 标签 &gt; <a
+					href="{@tagsurl($tag)}">{$tag}</a>
+			</div>
+			<div class="pic_list_wrap">
+				<ul>
+					<!--{foreach $list as $val}-->
+					<li><a href="{$val.url}"><img
+							src="{@image($val.cover, 130, 170)}" alt="{$val.title}" /></a><a
+						title="{$val.title}" href="{$val.url}">{@cutstr($val.title,
+							10)}</a></li>
+					<!--{/foreach}-->
+				</ul>
+			</div>
+
+			<div class="pager">
+				<span class="total">共{$totalNum}条记录</span> {$pageHtml}
+			</div>
+		</div>
+		<!-- 图片列表 结束 -->
+	</div>
+	<!-- 主要内容 结束 -->
+	<!-- 侧边栏 开始 -->
+	<div class="side">
+		<div class="adv_side">{@adsense('cate-right')}</div>
+		<!-- 每周热图 开始 -->
+		<div class="box_2 week_hot_box week_hot_box_2">
+			<div class="tit">
+				<h3>点击排行</h3>
+			</div>
+			<div class="cont">
+				<ol>
+					<!--{foreach @article($cate.cid, 0, 10, 'hits') as $key => $val}-->
+					<!--{eval $i = $key + 1}-->
+					<li><span class="list_num num_{$i}">{$i}</span><a
+						href="{$val.url}" title="{$val.title}">{@cutstr($val.title,
+							10)}</a></li>
+					<!--{/foreach}-->
+				</ol>
+			</div>
+		</div>
+		<!-- 每周热图 结束 -->
+		<!-- 搜索 开始 -->
+		<div class="box_1 search_box">
+			<div class="tit">
+				<h3>搜索</h3>
+			</div>
+			<div class="cont">
+				<input type="text" value="{$keyword}" class="search_in" id="keyword" />
+				<button type="button" class="btn_normal btn_search"
+					onclick="subsearch('keyword')">搜索</button>
+			</div>
+		</div>
+		<!-- 搜索 结束 -->
+		<!-- 热门图集 开始 -->
+		<div class="box_2 hot_tag_box" style="height: 212px;">
+			<div class="tit">
+				<h3>热门标签</h3>
+			</div>
+			<div class="cont">
+				<div class="tag_list">
+					<!--{foreach @tags(20) as $val}-->
+					<a href="{$val.url}" class="tag_{$val.star}">{$val.tag}</a>
+					<!--{/foreach}-->
+				</div>
+			</div>
+		</div>
+		<!-- 热门图集 开始 -->
+	</div>
+	<!-- 侧边栏 结束 -->
+</div>
+<!--{include footer.html}-->

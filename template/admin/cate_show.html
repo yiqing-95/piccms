@@ -1,0 +1,87 @@
+{include header.html}
+
+<script type="text/javascript">
+function setStauts(cid, status) {
+	$.get('?c=Cate&a=setStatus&cid=' + cid + '&status=' + status, null, function(rs){self.location='?c=Cate&a=show'});
+}
+</script>
+<form action="?c=Cate&a=show" method="post" name="myform" id="myform">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="table_title">
+			<td colspan="14">栏目分类列表</td>
+		</tr>
+		<tr class="list_head ct">
+			<td width="50">编号</td>
+			<td>栏目名称</td>
+			<td>别名</td>
+			<td>模板</td>
+			<td>显示模式</td>
+			<td width="250">操作</td>
+			<td width=70>排序</td>
+		</tr>
+
+		<tbody class="list_tbody">
+			<!--{foreach $cTree as $value}-->
+			<tr class="tr ct">
+				<td class="lt"><input type='checkbox' name='ids[]'
+					value='{$value.cid}' class="noborder">{$value.cid}</td>
+				<td class="lt">【<a href="{$value.url}" target="_blank">{$value.name}</a>】
+				</td>
+
+				<td class="td"><neq name="gxcms.mid" value="9">{$value.eng_name}</neq></td>
+				<td class="td">{if $value.ctpl}{$value.ctpl}{else}默认{/if}</td>
+				<td class="td">{if 1==$value.view_type}幻灯模式{else}普通模式{/if}</td>
+				<td class="td"><a href="?c=Article&a=add&cid={$value.cid}">添加内容</a>
+					| <a href="?c=Article&a=show&cid={$value.cid}">查看内容</a> | {if
+					$value.status} <a href="javascript:void(0)"
+					onclick="setStauts({$value.cid}, 0);" title="点击切换成导航栏上隐藏">显示</a>
+					{else} <a class="red" href="javascript:void(0)"
+					onclick="setStauts({$value.cid}, 1);" title="点击切换成导航栏上显示">隐藏</a>
+					{/if} | <a href="?c=Cate&a=add&cid={$value.cid}">编辑</a> | <a
+					href="?c=Cate&a=delete&ids={$value.cid}"
+					onclick="return confirm('确定删除该分类吗?删除后将不能恢复！')">删除</a></td>
+				<td class="td"><input type='text' name='oid[{$value.cid}]'
+					value='{$value.oid}' style="width: 22px;" maxlength="3"></td>
+			</tr>
+			<!--{foreach $value.son as $val}-->
+			<tr class="tr ct">
+				<td class="lt"><input type='checkbox' name='ids[]'
+					value='{$val.cid}' class="noborder">{$val.cid}</td>
+				<td class="lt">&nbsp;&nbsp;├【<a href="{$val.url}"
+					target="_blank">{$val.name}</a>】
+				</td>
+
+				<td class="td"><neq name="gxcms.mid" value="9">{$val.eng_name}</neq></td>
+				<td class="td">{if $val.ctpl}{$val.ctpl}{else}默认{/if}</td>
+				<td class="td">{if 1==$val.view_type}幻灯模式{else}普通模式{/if}</td>
+				<td class="td"><neq name="gxcms.mid" value="9"> <a
+						href="?c=Article&a=add&cid={$val.cid}">发表内容</a> | <a
+						href="?c=Article&a=show&cid={$val.cid}">查看内容</a> | {if
+					$val.status} <a href="javascript:void(0)"
+						onclick="setStauts({$val.cid}, 0);" title="点击切换成导航栏上隐藏">显示</a>
+					{else} <a class="red" href="javascript:void(0)"
+						onclick="setStauts({$val.cid}, 1);" title="点击切换成导航栏上显示">隐藏</a>
+					{/if} | <a href="?c=Cate&a=add&cid={$val.cid}">编辑</a> | <a
+						href="?c=Cate&amp;a=delete&amp;ids={$val.cid}"
+						onclick="return confirm('确定删除该分类吗?删除后将不能恢复！')">删除</a></td>
+				<td class="td"><input type='text' name='oid[{$val.cid}]'
+					value='{$val.oid}' style="width: 22px;" maxlength="3"></td>
+			</tr>
+			<!--{/foreach}-->
+			<!--{/foreach}-->
+		</tbody>
+		<tr>
+			<td colspan="14" bgcolor="#FFFFFF"><input type="hidden"
+				name="submit" value="true" /> <input
+				onclick="$.selectAll('ids[]');" class="bginput" type="button"
+				id="checkall" value="全/反选"> <input type="submit"
+				value="批量删除"
+				onclick="if(confirm('删除后将无法还原,确定要删除吗?')){myform.action='?c=Cate&a=delete';}else{return false}"
+				class="bginput" /> <input type="submit" value="修改排序" class="bginput"
+				onclick="myform.action='?c=Cate&a=updateOid';" />
+				&nbsp;注删除分类后原分类下的文章将被全部删除</td>
+		</tr>
+	</table>
+</form>
+{include footer.html}

@@ -1,0 +1,267 @@
+{include 'header.html'}
+<script type="text/javascript">
+// 测试序列地址
+function testListUrl() {
+	var data = $('#myform').serializeArray();
+	$.fopen('?c=Pick&a=testListUrl', data, '测试列表地址');
+}
+
+// testListRule
+function testListRule() {
+	var data = $('#myform').serializeArray();
+	$.fopen('?c=Pick&a=testListRule', data, '测试列表规则');
+}
+
+// testContentRule
+function testContentRule() {
+	var data = $('#myform').serializeArray();
+	$.fopen('?c=Pick&a=testContentRule', data, '测试内容规则');
+}
+
+// testShowPage
+function testShowPage() {
+	var data = $('#myform').serializeArray();
+	$.fopen('?c=Pick&a=testShowPage', data, '测试分页规则');	
+}
+
+</script>
+
+
+<form action="?c=Pick&a=add" method="post" id="myform" name="add">
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="tabs_title">
+			<td colspan="2"><span id="tabs" class="fl"> <a
+					class="tab2 on" id="tab_1" href="javascript:void(0)"
+					onclick="$.showTab(1, 3)">列表规则</a> <a class="tab2" id="tab_2"
+					href="javascript:void(0)" onclick="$.showTab(2, 3)">内容规则</a> <a
+					class="tab2" id="tab_3" href="javascript:void(0)"
+					onclick="$.showTab(3, 3)">分页规则</a>
+			</span> <span class="fr"><a href="?c=Pick&amp;a=show" class="no">返回采集管理</a></span></td>
+		</tr>
+	</table>
+	<div>
+		<table width="98%" border="0" cellpadding="4" cellspacing="1"
+			class="table" id="showtab_1" style="margin: 0 5px;">
+			<tbody>
+				<tr class="ji">
+					<td width="150" class="rt">规则名称</td>
+					<td><input type="text" name="webname" class="input"
+						value="{$webname}" /></td>
+				</tr>
+				<tr class="ji">
+					<td width="100" class="rt">分类</td>
+					<td><select name="status" class="select">
+							<option value="0">文章状态</option>
+							<option value="1" {if '1'==$status}selected{/if}>显示</option>
+							<option value="0" {if '0'==$status}selected{/if}>隐藏</option>
+					</select> {$cTreeStr} 要导入的分类</td>
+				</tr>
+				<tr class="ji">
+					<td class="rt">目标网站编码</td>
+					<td><label><input type="radio" name="charset_type"
+							value="GBK" {if 'gbk'==$charset_type}checked= "checked"{/if} />
+							GBK</label> <label> <input type="radio" name="charset_type"
+							value="UTF-8" {if 'utf-8'==$charset_type}checked= "checked"{/if}/>
+							UTF-8
+					</label> <label><input type="radio" name="charset_type"
+							value="BIG5" {if 'big5'==$charset_type}checked= "checked"{/if}/>
+							BIG5</label>&nbsp;&nbsp;&nbsp;<span class="red">必须正确设置目标网站的编码</span></td>
+				</tr>
+				<tr class="ji">
+					<td class="rt">序列地址</td>
+					<td><input type="text" name="listurl" id="listurl"
+						class="input" value="{$listurl}" /> <a class="button"
+						href="javascript:void(0)" onclick="testListUrl();">测试</a>
+						<p>如http://www.xxx.com/lists/p/[page].html, 页码使用[page]做为通配符</p>
+						<p>
+
+							页码从: <input name="page_begin" id="page_begin" type="text"
+								value="{$page_begin}" size="5" /> 到 <input name="page_end"
+								id="page_end" type="text" value="{$page_end}" size="5" /> 每次递增
+							<input name="page_step" id="page_step" type="text"
+								value="{$page_step}" size="5" />
+						</p></td>
+				</tr>
+				<tr class="ji"id"cover">
+					<td class="rt">额外不规则地址</td>
+					<td><span style="display: {if 0==  $rulepage"> <textarea
+								name="listmoreurl" cols="70" rows="7">{$listmoreurl}</textarea>
+					</span></td>
+				</tr>
+				<tr class="ji">
+					<td width="150" class="rt">列表区域规则</td>
+					<td><p>
+							<textarea rows="7" cols="70" name="list_content_rule"
+								class="input_textarea" id="list_content_rule">{$list_content_rule}</textarea>
+						</p>
+						<p>
+							如: &lt;div class='page'&gt;<span class="blue">[content]</span>&lt;/div&gt;,
+							通配符 [content]: 分页区域, [*]: 任意字符
+						</p></td>
+				</tr>
+				<tr class="ji">
+					<td class="rt">文章地址规则</td>
+					<td><textarea name="list_url_rule" cols="70" rows="7">{$list_url_rule}</textarea>
+						<p>
+							如: &lt;a href=&quot;<span class="blue">[url]</span>&quot;
+							title=&quot;<span class="blue">[title]</span>&quot;&gt;&lt;img
+							src=<span class="blue">[*]</span>&gt;&lt;br&gt;<span class="blue">[*]</span>&lt;/a&gt;
+							通配符 [url]: 地址, [title]: 标题, [*]: 任意字符
+						</p></td>
+				</tr>
+				<tr class="tr">
+					<td class="rt">文章地址合成</td>
+					<td><p>
+							<input name="list_url_join" type="text" value="{$list_url_join}"
+								class="input" />
+						</p>
+						<p>
+							如: http://xxx.com/abc/[content], 通配符 <span class="blue">[content]</span>:
+							匹配到的<span class="rt">文章地址</span>
+						</p></td>
+				</tr>
+				<tr class="tr">
+					<td class="rt">地址过滤规则</td>
+					<td><span class="rt">地址</span>中必须包含 <input
+						name="link_include_word" type="text" value="{$link_include_word}" />
+						不得包含 <input name="link_noinclude_word" type="text"
+						value="{$link_noinclude_word}" /> <a class="button"
+						href="javascript:void(0)" onclick="testListRule();">测试</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div>
+		<table width="98%" border="0" cellpadding="4" cellspacing="1"
+			class="table" id="showtab_2" style="margin: 0 5px; display: none">
+			<tbody>
+				<tr class="ji">
+					<td width="150" class="rt">标题规则</td>
+					<td>
+						<p>
+							<textarea name="title_rule" cols="70" rows="7">{$title_rule}</textarea>
+						</p>
+						<p>
+							如: &lt;div class='page'&gt;<span class="blue">[content]</span>&lt;/div&gt;,
+							通配符 [content]: 分页区域, [*]: 任意字符
+						</p>
+					</td>
+				</tr>
+				<tr class="ji">
+					<td width="150" class="rt">内容区域规则</td>
+					<td><p>
+							<textarea rows="7" cols="70" name="content_rule"
+								class="input_textarea" id="content_rule">{$content_rule}</textarea>
+						</p>
+						<p>
+							如: &lt;div class='contert'&gt;<span class="blue">[content]</span>&lt;/div&gt;,
+							通配符 [content]: 内容区域, [*]: 任意字符
+						</p></td>
+				</tr>
+
+				<tr class="ji">
+					<td width="100" class="rt">图片地址规则</td>
+					<td><p>
+							<textarea name="file_rule" cols="70" rows="7">{$file_rule}</textarea>
+						</p>
+						<p>
+							如: &lt;img src=&quot;<span class="blue">[url]</span>&quot;
+							alt=&quot;<span class="blue">[title]</span>&quot; /&gt;, 通配符
+							[url]: 图片地址, [title]: 图片标题, [*]: 任意字符
+						</p></td>
+				</tr>
+
+				<tr class="tr">
+					<td class="rt">图片地址合成</td>
+					<td><p>
+							<input name="file_url_join" type="text" value="{$file_url_join}"
+								class="input" />
+						</p>
+						<p>
+							如: http://xxx.com/abc/[content], 通配符 <span class="blue">[content]</span>:
+							匹配到的<span class="rt">图片地址</span>
+						</p></td>
+				</tr>
+
+				<tr class="ji">
+					<td width="100" class="rt">地址过滤规则</td>
+					<td><span class="rt">地址</span>中必须包含 <input
+						name="file_include_word" type="text" id="file_include_word"
+						value="{$file_include_word}" /> 不得包含 <input
+						name="file_noinclude_word" type="text" id="file_noinclude_word"
+						value="{$file_noinclude_word}" /> <a class="button"
+						href="javascript:void(0)" onclick="testContentRule();">测试</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+		<table width="98%" border="0" cellpadding="4" cellspacing="1"
+			class="table" id="showtab_3" style="margin: 0 5px; display: none">
+			<tbody>
+				<tr class="ji">
+					<td width="150" class="rt">分页内容区域规则</td>
+					<td><p>
+							<textarea rows="7" cols="70" name="page_content_rule"
+								class="input_textarea" id="page_content_rule">{$page_content_rule}</textarea>
+						</p>
+						<p>
+							如: &lt;div class='page'&gt;<span class="blue">[content]</span>&lt;/div&gt;,
+							通配符 [content]: 分页区域, [*]: 任意字符
+						</p></td>
+				</tr>
+
+				<tr class="ji">
+					<td width="100" class="rt">分页地址规则</td>
+					<td><p>
+							<textarea name="page_rule" cols="70" rows="7" id="page_rule">{$page_rule}</textarea>
+						</p>
+						<p>
+							如: &lt;a href=&quot;<span class="blue">[url]</span>&quot;&gt;<span
+								class="blue">[*]</span>&lt;/a&gt;, 通配符 [url]: 分页地址, [*]: 任意字符
+						</p></td>
+				</tr>
+
+				<tr class="tr">
+					<td class="rt">分页地址合成</td>
+					<td><p>
+							<input name="page_url_join" type="text" value="{$page_url_join}"
+								class="input" />
+						</p>
+						<p>
+							如: http://xxx.com/abc/[content], 通配符 <span class="blue">[content]</span>:
+							匹配到的<span class="rt">图片地址</span>
+						</p></td>
+				</tr>
+
+				<tr class="tr">
+					<td class="rt">是否包含第一页</td>
+					<td><input name="page_first" type="checkbox" value="1"
+						{if $page_first}checked="checked" {/if} /> 匹配到的分页地址中是否包含第一页的地址</td>
+				</tr>
+
+				<tr class="ji">
+					<td width="100" class="rt">分页地址过滤规则</td>
+					<td><span class="rt">地址</span>中必须包含 <input
+						name="page_include_word" type="text" id="page_include_word"
+						value="{$page_include_word}" /> 不得包含 <input
+						name="page_noinclude_word" type="text" id="page_noinclude_word"
+						value="{$page_noinclude_word}" /> <a class="button"
+						href="javascript:void(0)" onclick="testShowPage();">测试</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<table width="98%" border="0" cellpadding="4" cellspacing="1"
+		class="table">
+		<tr class="tr ct">
+			<td align="left" style="padding-left: 150px;"><input
+				type="hidden" name="id" value="{$id}" /> <input class="bginput"
+				type="submit" value="提交" name="submit" /> <input class="bginput"
+				type="reset" name="Input" value="重置" /></td>
+		</tr>
+	</table>
+</form>
+{include 'footer.html'}

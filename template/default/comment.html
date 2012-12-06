@@ -1,0 +1,112 @@
+<style>
+.tface_list {
+	position: absolute;
+	left: 30px;
+	top: 80px;
+	border: 1px solid #999;
+	background: #FFF;
+	width: 320px;
+	padding: 5px;
+	display: none;
+}
+
+.tface_list img {
+	cursor: pointer;
+	border: 1px solid #D4E4F7;
+}
+
+#reply_span {
+	background: #996;
+	color: #FFF;
+	padding: 3px 10px;
+	display: none
+}
+</style>
+<iframe name="comment_post" width="0" height="0" style="display: none"></iframe>
+
+<div class="comment_box">
+	<h2>游客评论</h2>
+	<form target="comment_post" class="comment"
+		action="{$web_script}?c=Comment&a=post" method="post">
+		<input type="hidden" name="id" id="id" value="{$article.id}">
+		<input type="hidden" name="title" id="title" value="{$article.title}">
+		<input type="hidden" name="reply_id" id="reply_id" value="0" />
+		<div class="comment_cont">
+			<div class="comment_name">
+				<label>昵称：<input type="text" value="{$userName}"
+					id="user_name" name="user_name" /><span>*</span></label>
+			</div>
+
+			<!--{if $web_comment_vcode}-->
+			<div class="comment_var">
+				<label>验证：<input type="text" value="" name="vcode"
+					id="vcode" onfocus="showVcode()" /></label> <span style="display: none"
+					id="vcode_span"> <img width="90" height="22"
+					align="absmiddle" class="imgCode" id="captchax"> <a
+					href="javascript:changeVcode();"> 看不清，换一张 </a>
+				</span>
+			</div>
+			<!--{/if}-->
+			<div class="comment_quick">
+				<select onchange="$('#comment_content').val(this.value)">
+					<option value="">快捷回复</option>
+					<option value="太棒了，真不错">太棒了，真不错</option>
+					<option value="垃圾啊，这样也叫美女">垃圾啊，这样也叫美女</option>
+				</select>
+			</div>
+			<span id="reply_span"> 回复 <span></span> 楼的贴子 <a
+				style="background: #FFF; padding: 0px 5px; text-decoration: none"
+				href="javascript:setReply()">移除</a>
+			</span>
+
+			<textarea rows="4" cols="4" class="comment_ta" name="content"
+				id="comment_content"></textarea>
+			<div class="comment_emote">
+				<a href="javascript:void(0)" onclick="showFace()" class="ins_emote">插入表情</a>
+			</div>
+			<div class="tface_list" id="cmtFace">
+				<img title="[201]" onclick="setFace(this,'')"
+					src="{$web_path}images/face/face201.gif"> <img title="[202]"
+					onclick="setFace(this,'')" src="{$web_path}images/face/face202.gif">
+				<img title="[203]" onclick="setFace(this,'')"
+					src="{$web_path}images/face/face203.gif"> <img title="[204]"
+					onclick="setFace(this,'')" src="{$web_path}images/face/face204.gif">
+				<img title="[205]" onclick="setFace(this,'')"
+					src="{$web_path}images/face/face205.gif"> <img title="[206]"
+					onclick="setFace(this,'')" src="{$web_path}images/face/face206.gif">
+				<img title="[207]" onclick="setFace(this,'')"
+					src="{$web_path}images/face/face207.gif"> <img title="[208]"
+					onclick="setFace(this,'')" src="{$web_path}images/face/face208.gif">
+				<img title="[209]" onclick="setFace(this,'')"
+					src="{$web_path}images/face/face209.gif"> <img title="[210]"
+					onclick="setFace(this,'')" src="{$web_path}images/face/face210.gif">
+			</div>
+
+			<button type="submit" name="submit" class="btn_normal">发表评论</button>
+			<p class="total_tips">请文明发言，发广告将被屏蔽IP ( {$clientIp} )</p>
+		</div>
+	</form>
+
+	<div class="comment_list">
+		<ul>
+			<!--{foreach $list as $val}-->
+			<li><span class="floor_num">{$val.floor}楼</span><a
+				href="javascript:void(0)" class="name">{$val.user_name}</a><span
+				class="date">{@idate($val.dateline)}</span>
+				<p class="detail">
+					<!--{if $val.status}-->
+					{$val.content}
+					<!--{else}-->
+					<span class="status-off">该评论尚未通过审核</span>
+					<!--{/if}-->
+				</p></li>
+			<!--{/foreach}-->
+			<script>
+	$('.comment_list li:even').addClass("single");
+	</script>
+		</ul>
+	</div>
+	<div class="pager">
+		<span class="total">共{$total}条评论</span> {$pageHtml}
+	</div>
+</div>
