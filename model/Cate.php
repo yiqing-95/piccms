@@ -20,7 +20,7 @@ class Cate_Model extends Model {
      *            mixed
      * @return void
      */
-    public function getList(){
+    public function getList($where = array(), $limit = '', $order = ''){
         $cacheKey = 'cate_list';
         $cacheData = $this->cache->getFromBox($cacheKey);
         if ($cacheData){

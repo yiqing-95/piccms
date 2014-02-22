@@ -220,7 +220,7 @@ class Wee {
      *            mixed
      * @return void
      */
-    private function _parseRequestInfo(){
+    private static function _parseRequestInfo(){
         if (isset($_SERVER['HTTP_X_REWRITE_URL'])){
             Wee::$config['web_uri'] = $_SERVER['HTTP_X_REWRITE_URL'];
         }elseif (isset($_SERVER['REQUEST_URI'])){

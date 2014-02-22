@@ -67,7 +67,7 @@ class Ext_Auth {
      *            mixed
      * @return void
      */
-    public function check($havePre, $needPre){
+    public static  function check($havePre, $needPre){
         return $havePre & $needPre;
     }
 }
