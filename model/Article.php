@@ -21,11 +21,14 @@ class Article_Model extends Model {
      * @return void
      */
     public function search($where, $limit = '0, 10', $order = 'id', $by = 'DESC'){
-        if (!isset($where['status'])){
-            $where['status'] = 1;
-        }
-        if ($where['status'] < 0){
-            unset($where['status']);
+        if(is_array($where)){
+            if (!isset($where['status'])){
+                $where['status'] = 1;
+            }
+            if ($where['status'] < 0){
+                unset($where['status']);
+            }
+
         }
         $res = $this->db->table('#@_article')
             ->field(
